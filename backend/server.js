@@ -43,6 +43,8 @@ const isProduction = String(process.env.NODE_ENV || "").trim().toLowerCase() ===
 const frontendPublicDir = path.join(__dirname, "../frontend/public");
 const frontendSrcDir = path.join(__dirname, "../frontend/src");
 const frontendPagesDir = path.join(frontendSrcDir, "pages");
+const frontendUploadsDir = path.join(frontendPublicDir, "assets/uploads");
+const backendDatasheetsDir = path.join(__dirname, "uploads/datasheets");
 
 // --- Middleware ---
 app.set("trust proxy", 1);
@@ -66,6 +68,8 @@ app.use(express.static(frontendPublicDir));
 app.use("/css", express.static(path.join(frontendSrcDir, "css")));
 app.use("/js", express.static(path.join(frontendSrcDir, "js")));
 app.use("/webfonts", express.static(path.join(frontendSrcDir, "webfonts")));
+app.use("/uploads", express.static(frontendUploadsDir));
+app.use("/datasheets", express.static(backendDatasheetsDir));
 
 // --- الداتابيز ---
 mongoose

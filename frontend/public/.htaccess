@@ -1,0 +1,27 @@
+RewriteEngine On
+
+# 1) Canonical: redirect /page.html -> /page
+RewriteCond %{THE_REQUEST} \s/+(.+?)\.html[\s?] [NC]
+RewriteRule ^ %1 [R=301,L,NE]
+
+# Canonical: redirect /index -> /
+RewriteRule ^index/?$ / [R=301,L,NC]
+
+# 2) Keep real files and directories untouched
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# 3) Dynamic-like static route support
+# /pharmacy/<slug> -> /pharmacy-landing.html
+RewriteRule ^pharmacy/[^/]+/?$ pharmacy-landing.html [L,NC]
+
+# 4) Extensionless URLs: /about -> /about.html
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.+?)/?$ $1.html [L,NC]
+
+# 5) Root route
+RewriteRule ^$ index.html [L]
+
+# 6) Static 404 page
+ErrorDocument 404 /404.html

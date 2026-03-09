@@ -99,6 +99,7 @@ const ABOUT_PAGE_SLUG = 'about';
 const LOGIN_SUCCESS_DURATION_MS = 2000;
 const LOGIN_ERROR_DURATION_MS = 2200;
 const HUD_MAX_RESULTS = 8;
+const API_BASE_URL = String(window.GEMA_API_BASE_URL || '').trim().replace(/\/+$/, '');
 const STRONG_PASSWORD_REGEX = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/;
 const PASSWORD_POLICY_MESSAGE = 'Password must be at least 8 characters and include uppercase, lowercase, number, and symbol.';
 
@@ -106,6 +107,40 @@ function formatPriceLabel(value, currency = 'EGP', fallback = 'Price on request'
     const amount = Number(value);
     if (!Number.isFinite(amount) || amount <= 0) return fallback;
     return `${amount.toLocaleString('en-US', { maximumFractionDigits: 2 })} ${String(currency || 'EGP').toUpperCase()}`;
+}
+
+function resolveBackendAssetUrl(rawPath, fallback = '') {
+    const value = String(rawPath || '').trim();
+    if (!value) return fallback;
+    if (/^https?:\/\//i.test(value) || value.startsWith('data:') || value.startsWith('blob:')) {
+        return value;
+    }
+
+    if (value.startsWith('/uploads') || value.startsWith('/datasheets')) {
+        return API_BASE_URL ? `${API_BASE_URL}${value}` : value;
+    }
+
+    return value;
+}
+
+async function parseApiError(response, fallbackMessage) {
+    const rawText = await response.text();
+    let payload = null;
+
+    try {
+        payload = rawText ? JSON.parse(rawText) : null;
+    } catch (_) {
+        payload = null;
+    }
+
+    const message =
+        payload?.message
+        || payload?.error
+        || rawText
+        || fallbackMessage
+        || `Request failed (${response.status})`;
+
+    return { payload, message };
 }
 
 function isHighPrivilegeRole(role = AdminState.userRole) {
@@ -248,13 +283,11 @@ async function initializeAdmin() {
     };
 
     if (!token || !isTokenValid(token) || !userRole) {
-        console.log('🔒 Auth Guard: Missing/Expired token in localStorage/sessionStorage');
         showLoginPortal();
         setupLoginForm();
         return;
     }
 
-    console.log('✨ GEMA Engine Initialized [Auth Guard Active] Role:', userRole);
     await startAuthenticatedAdmin(token, userRole, userName);
 }
 
@@ -341,7 +374,6 @@ function applyPermissions(userRole) {
         }
     } else if (!allowedSections.length) {
         // غيره: لا يرى شيء
-        console.log('⚠️ Limited access for role:', AdminState.userRole);
     }
 
     // إظهار العناصر المسموحة فقط في القائمة الجانبية
@@ -393,7 +425,6 @@ function protectRestrictedSections(userRole) {
             ${selectors} { display: none !important; visibility: hidden !important; pointer-events: none !important; }
         `;
         document.head.appendChild(style);
-        console.log('🛡️ Matrix CSS Shield Activated for restricted sections:', restrictedSections);
     }
 }
 
@@ -414,9 +445,6 @@ function restrictProductActions() {
             actions.style.display = 'none';
         });
         
-        console.log('🔒 Product actions restricted for role:', userRole);
-    } else {
-        console.log('✅ Product actions allowed for role:', userRole);
     }
 }
 
@@ -436,7 +464,6 @@ function setupRedirectionGuard(userRole) {
         window.addEventListener('hashchange', guard);
         window.addEventListener('popstate', guard);
         
-        console.log('🛡️ Redirection guard activated');
     }
 }
 
@@ -445,8 +472,6 @@ function redirectToAllowedSection() {
     const userRole = AdminState.userRole;
     const defaultSection = getDefaultSectionForRole(userRole);
     
-    console.log('📍 Redirecting to allowed section:', defaultSection, 'for role:', userRole);
-
     setActiveSection(defaultSection);
 }
 
@@ -566,8 +591,6 @@ function setupLoginForm() {
                 sessionStorage.setItem('GEMA_user_name', data.user.name || 'GEMA Operator');
                 sessionStorage.setItem('GEMA_user_department', String(data?.user?.department || 'Medical'));
                 
-                console.log('🔐 Login successful - Role stored:', normalizedRole);
-
                 await runLoginSuccessCeremony(LOGIN_SUCCESS_DURATION_MS);
                 await startAuthenticatedAdmin(
                     data.token,
@@ -719,7 +742,6 @@ async function fetchExchangeRate() {
             AdminState.exchangeRate = parseFloat(data.rates.EGP) || 50.0;
             document.getElementById('widget-exchange-rate').textContent = 
                 AdminState.exchangeRate.toFixed(2);
-            console.log('💱 Exchange Rate Updated:', AdminState.exchangeRate);
             return AdminState.exchangeRate;
         } else {
             throw new Error('Invalid rate data');
@@ -777,7 +799,6 @@ function calculateMatrixValue() {
         }) + " EGP";
     }
     
-    console.log('📊 Matrix Financial Sync:', AdminState.matrixValue);
     return AdminState.matrixValue;
 }
 // ========== 5. DASHBOARD INITIALIZATION ==========
@@ -996,8 +1017,9 @@ function setupSmartHud() {
 function setupLogout() {
     const btn = document.getElementById('system-logout-btn') || document.getElementById('btn-logout');
     if (btn) {
+        if (btn.dataset.bound === '1') return;
+        btn.dataset.bound = '1';
         btn.addEventListener('click', () => {
-            console.log('🔄 Hard Logout process initiated...');
             clearAdminAuthStorage();
             
             // 3️⃣ تصفير حالة التطبيق البرمجية
@@ -1009,7 +1031,6 @@ function setupLogout() {
             AdminState.matrixValue = 0;
             
             // 4️⃣ إعادة التوجيه مع استخدام replace لمنع زر "Back" تماماً
-            console.log('🔐 Session Terminated. Returning to authorization unit...');
             window.location.replace('/admin');
         });
     }
@@ -1057,6 +1078,8 @@ function setupNavigation() {
     const userRole = AdminState.userRole;
     
     navItems.forEach(item => {
+        if (item.dataset.navBound === '1') return;
+        item.dataset.navBound = '1';
         item.addEventListener('click', (e) => {
             const sectionName = item.dataset.section;
             
@@ -1145,7 +1168,6 @@ async function fetchAdminProducts() {
         
         if (totalProductsWidget) {
             totalProductsWidget.textContent = productCount;
-            console.log('📦 Total Products Updated:', productCount);
         }
         
         // حساب قيمة المصفوفة بعد التأكد من المنتجات
@@ -1927,6 +1949,8 @@ function setupUniversalPageManager() {
     const form = document.getElementById('form-universal-page-manager');
     const slugSelect = document.getElementById('universal-page-slug');
     if (!form || !slugSelect) return;
+    if (form.dataset.bound === '1') return;
+    form.dataset.bound = '1';
 
     const requiredSlugs = ['header', 'footer', 'home', 'hub', 'about', 'news', 'products', 'trading', 'direct-sourcing', 'logistics', 'manufacturing', 'engineering', 'regulatory', 'turnkey', 'contact', 'quote', 'service-details'];
     const existingSlugs = Array.from(slugSelect.options || []).map((opt) => String(opt.value || '').trim()).filter(Boolean);
@@ -2132,6 +2156,8 @@ function setupOperationsManager() {
     const langSelect = document.getElementById('operations-lang');
     const pageSelect = document.getElementById('operations-page-slug');
     if (!form || !langSelect || !pageSelect) return;
+    if (form.dataset.bound === '1') return;
+    form.dataset.bound = '1';
 
     langSelect.addEventListener('change', populateOperationsEditor);
     pageSelect.addEventListener('change', async () => {
@@ -2193,6 +2219,8 @@ function setupAboutManager() {
     const form = document.getElementById('form-about-content');
     const langSelect = document.getElementById('about-manager-lang');
     if (!form || !langSelect) return;
+    if (form.dataset.bound === '1') return;
+    form.dataset.bound = '1';
 
     langSelect.addEventListener('change', populateAboutEditor);
 
@@ -2264,7 +2292,7 @@ function renderProducts(products) {
         <div class="product-item">
             <div class="product-info">
                 <img 
-                    src="${p.imagePath || p.image || '/assets/images/sectors/products.jpg'}" 
+                    src="${resolveBackendAssetUrl(p.imagePath || p.image, '/assets/images/sectors/products.jpg')}" 
                     alt="${p.name}" 
                     class="product-image"
                 />
@@ -2281,7 +2309,7 @@ function renderProducts(products) {
             </div>
             ${canManageDatasheet ? `
             <div class="product-actions">
-                <button class="btn-edit" data-action="edit" data-product-id="${p._id}" data-product-json="${encodeURIComponent(JSON.stringify({_id: p._id, name: p.name, price: p.price, currency: p.currency, category: p.category || 'Manufacturing', specialty: p.specialty, sector: p.sector || 'Equipment', origin: p.origin || 'Internal', logistics: p.logistics || 'Local', description: p.description, imagePath: p.imagePath || p.image || '/assets/images/sectors/products.jpg', image: p.imagePath || p.image || '/assets/images/sectors/products.jpg', datasheet: p.datasheet || p.datasheet_url || '', technicalSpecs: p.technicalSpecs || {}}))}" title="Edit">
+                <button class="btn-edit" data-action="edit" data-product-id="${p._id}" data-product-json="${encodeURIComponent(JSON.stringify({_id: p._id, name: p.name, price: p.price, currency: p.currency, category: p.category || 'Manufacturing', specialty: p.specialty, sector: p.sector || 'Equipment', origin: p.origin || 'Internal', logistics: p.logistics || 'Local', description: p.description, imagePath: resolveBackendAssetUrl(p.imagePath || p.image, '/assets/images/sectors/products.jpg'), image: resolveBackendAssetUrl(p.imagePath || p.image, '/assets/images/sectors/products.jpg'), datasheet: p.datasheet || p.datasheet_url || '', technicalSpecs: p.technicalSpecs || {}}))}" title="Edit">
                     <i class="fas fa-edit"></i>
                 </button>
                 ${canManageCatalog ? `
@@ -2552,7 +2580,7 @@ function openEditModal(product) {
     document.getElementById('edit-sizes').value = specs.sizes || '';
     document.getElementById('edit-components').value = specs.components || '';
     if (imagePreview) {
-        imagePreview.src = product.imagePath || product.image || '/assets/images/sectors/products.jpg';
+        imagePreview.src = resolveBackendAssetUrl(product.imagePath || product.image, '/assets/images/sectors/products.jpg');
     }
     const imageFileInput = document.getElementById('edit-product-image');
     if (imageFileInput) {
@@ -2727,36 +2755,38 @@ function setupEditNewsForm() {
 
 const editForm = document.getElementById('form-edit-product');
 if (editForm) {
-    editForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
+    if (editForm.dataset.bound !== '1') {
+        editForm.dataset.bound = '1';
+        editForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
 
-        if (!document.body.classList.contains('authenticated')) {
-            return;
-        }
+            if (!document.body.classList.contains('authenticated')) {
+                return;
+            }
         
-        const id = document.getElementById('edit-product-id').value;
-        const data = {
-            name: document.getElementById('edit-name').value,
-            price: parseFloat(document.getElementById('edit-price').value),
-            currency: document.getElementById('edit-currency').value,
-            category: document.getElementById('edit-category').value,
-            specialty: document.getElementById('edit-specialty').value,
-            sector: document.getElementById('edit-sector').value,
-            productOrigin: document.getElementById('edit-product-origin').value,
-            logistics: document.getElementById('edit-logistics').value,
-            description: document.getElementById('edit-description').value,
-            material: document.getElementById('edit-material').value,
-            origin: document.getElementById('edit-origin').value,
-            compliance: document.getElementById('edit-compliance').value,
-            sterilization: document.getElementById('edit-sterilization').value,
-            sizes: document.getElementById('edit-sizes').value,
-            components: document.getElementById('edit-components').value
-        };
+            const id = document.getElementById('edit-product-id').value;
+            const data = {
+                name: document.getElementById('edit-name').value,
+                price: parseFloat(document.getElementById('edit-price').value),
+                currency: document.getElementById('edit-currency').value,
+                category: document.getElementById('edit-category').value,
+                specialty: document.getElementById('edit-specialty').value,
+                sector: document.getElementById('edit-sector').value,
+                productOrigin: document.getElementById('edit-product-origin').value,
+                logistics: document.getElementById('edit-logistics').value,
+                description: document.getElementById('edit-description').value,
+                material: document.getElementById('edit-material').value,
+                origin: document.getElementById('edit-origin').value,
+                compliance: document.getElementById('edit-compliance').value,
+                sterilization: document.getElementById('edit-sterilization').value,
+                sizes: document.getElementById('edit-sizes').value,
+                components: document.getElementById('edit-components').value
+            };
 
-        const imageFileInput = document.getElementById('edit-product-image');
-        const hasImageFile = Boolean(imageFileInput?.files && imageFileInput.files[0]);
+            const imageFileInput = document.getElementById('edit-product-image');
+            const hasImageFile = Boolean(imageFileInput?.files && imageFileInput.files[0]);
 
-        if (hasImageFile) {
+            if (hasImageFile) {
             const imageFormData = new FormData();
             imageFormData.append('productImage', imageFileInput.files[0]);
 
@@ -2767,18 +2797,18 @@ if (editForm) {
             });
 
             if (!imageRes.ok) {
-                const imageErrorText = await imageRes.text();
-                alert(`❌ Product image update failed: ${imageErrorText}`);
+                const { message } = await parseApiError(imageRes, 'Product image update failed');
+                alert(`❌ ${message}`);
                 return;
             }
         }
 
-        const datasheetInput = document.getElementById('edit-datasheet-url');
-        const datasheetUrl = datasheetInput ? datasheetInput.value.trim() : '';
-        const datasheetFileInput = document.getElementById('edit-datasheet-file');
-        const hasDatasheetFile = Boolean(datasheetFileInput?.files && datasheetFileInput.files[0]);
+            const datasheetInput = document.getElementById('edit-datasheet-url');
+            const datasheetUrl = datasheetInput ? datasheetInput.value.trim() : '';
+            const datasheetFileInput = document.getElementById('edit-datasheet-file');
+            const hasDatasheetFile = Boolean(datasheetFileInput?.files && datasheetFileInput.files[0]);
 
-        if (hasDatasheetFile || datasheetUrl.length > 0) {
+            if (hasDatasheetFile || datasheetUrl.length > 0) {
             const dsFormData = new FormData();
             if (hasDatasheetFile) {
                 dsFormData.append('datasheet', datasheetFileInput.files[0]);
@@ -2794,17 +2824,17 @@ if (editForm) {
             });
 
             if (!dsRes.ok) {
-                const dsErrorText = await dsRes.text();
-                alert(`❌ Datasheet update failed: ${dsErrorText}`);
+                const { message } = await parseApiError(dsRes, 'Datasheet update failed');
+                alert(`❌ ${message}`);
                 return;
             }
         }
 
-        if (datasheetUrl.length > 0) {
-            data.datasheetUrl = datasheetUrl;
-        }
+            if (datasheetUrl.length > 0) {
+                data.datasheetUrl = datasheetUrl;
+            }
         
-        try {
+            try {
             const res = await fetch(`/api/products/${id}`, {
                 method: 'PUT',
                 headers: {
@@ -2816,9 +2846,9 @@ if (editForm) {
             
             // Check if response is OK
             if (!res.ok) {
-                const errorText = await res.text();
-                console.error('❌ Server response:', res.status, errorText);
-                alert(`❌ Server error: ${res.status} - ${res.statusText}`);
+                const { message } = await parseApiError(res, `Product save failed (${res.status})`);
+                console.error('❌ Product save failed:', res.status, message);
+                alert(`❌ ${message}`);
                 return;
             }
             
@@ -2831,11 +2861,12 @@ if (editForm) {
             } else {
                 alert('❌ ' + (result.message || 'Update failed'));
             }
-        } catch (err) {
-            console.error('❌ Error:', err);
-            alert('❌ Error: ' + err.message);
-        }
-    });
+            } catch (err) {
+                console.error('❌ Error:', err);
+                alert('❌ Error: ' + err.message);
+            }
+        });
+    }
 }
 
 const editPasswordForm = document.getElementById('form-edit-password');
@@ -3251,15 +3282,6 @@ function setupMachineryForm() {
         btn.disabled = true;
 
         try {
-            console.log('🛠️ Machinery submit started', {
-                role: AdminState.userRole,
-                endpoint: '/api/machinery/add',
-                name: (formData.get('name') || '').toString().trim(),
-                category: (formData.get('category') || '').toString().trim(),
-                hasImage: Boolean(formData.get('image') instanceof File && formData.get('image').size > 0),
-                hasDatasheet: Boolean(formData.get('datasheet') instanceof File && formData.get('datasheet').size > 0)
-            });
-
             const res = await fetch('/api/machinery/add', {
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${AdminState.token}` },
@@ -3267,7 +3289,6 @@ function setupMachineryForm() {
             });
 
             const payload = await res.json();
-            console.log('🛠️ Machinery submit response', { status: res.status, ok: res.ok, payload });
             if (!res.ok || !payload.success) {
                 throw new Error(payload.message || 'Failed to save machinery item');
             }
