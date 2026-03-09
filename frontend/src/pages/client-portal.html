@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GEMA Client Portal</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+      background: linear-gradient(150deg, #051224, #0d2b4a 45%, #1e4b73);
+      color: #f7fbff;
+      min-height: 100vh;
+    }
+    .wrap {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 28px 16px 40px;
+    }
+    .card {
+      background: rgba(8, 20, 34, 0.88);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 14px;
+      padding: 18px;
+      box-shadow: 0 12px 26px rgba(0, 0, 0, 0.3);
+    }
+    .meta {
+      opacity: 0.86;
+      margin: 5px 0;
+      font-size: 14px;
+    }
+    .msg {
+      margin-top: 14px;
+      padding: 14px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.06);
+      white-space: pre-wrap;
+      line-height: 1.6;
+    }
+    .state {
+      margin-top: 20px;
+      font-size: 15px;
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <h1>GEMA Client Portal</h1>
+    <p class="state" id="portal-state">Loading secure report...</p>
+
+    <section class="card" id="portal-card" style="display:none;">
+      <h2 id="report-subject">-</h2>
+      <p class="meta" id="report-module">Module: -</p>
+      <p class="meta" id="report-specialty">Specialty: -</p>
+      <p class="meta" id="report-status">Status: -</p>
+      <p class="meta" id="report-date">Date: -</p>
+      <p class="meta" id="report-client">Client: -</p>
+      <div class="msg" id="report-message">-</div>
+    </section>
+  </main>
+
+<script src="/js/api-config.js"></script>
+<script src="/js/client-portal.js"></script>
+</body>
+</html>
+

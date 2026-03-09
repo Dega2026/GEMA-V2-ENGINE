@@ -1,0 +1,162 @@
+/* ==========================================================================
+   GEMA RTL ENGINE (ARABIC FIXES) - POWERED BY MSA
+   ========================================================================== */
+
+/* 1. ضبط الاتجاهات الأساسية للموقع ومنع السواد */
+body, 
+.main-content-wrapper, 
+.slider-container {
+    direction: rtl;
+    overflow-x: hidden !important;
+}
+
+/* 2. فصل المجسم الـ 3D (السرنجة) عن الكلام */
+#canvas-container,
+.product-3d-container {
+    position: absolute !important;
+    left: 0 !important;          /* إجبار المجسم على أقصى اليسار */
+    right: auto !important;      /* إلغاء أي ارتباط باليمين */
+    width: 50% !important;       /* ياخد نص الشاشة بس */
+    z-index: 1 !important;
+    transform: none !important;  /* يلغي الإزاحة اللي كانت بتعمل سواد */
+}
+
+canvas {
+    right: auto !important;
+    left: 0 !important;
+    position: relative !important;
+}
+
+/* 3. ضبط اتجاه السلايدر (Swiper) والكلام */
+.slide {
+    float: right !important;     /* ترتيب السلايدات من اليمين لليسار */
+    transform: none !important;  /* يمنع الصفحة إنها تهرب */
+}
+
+.slide-content, 
+.hero-content {
+    position: relative !important;
+    z-index: 10 !important;      /* الكلام فوق المجسم دايماً */
+    width: 50% !important;       /* الكلام ياخد النص اليمين بس */
+    margin-right: 5% !important; /* نبعده عن الحافة اليمين شوية */
+    margin-left: 0 !important;
+}
+
+/* 4. تعديلات الكروت والنصوص اليمين */
+.gema-card {
+    text-align: right;
+}
+
+/* 5. تعديلات الموبايل الخاصة بالعربي فقط */
+@media (max-width: 768px) {
+    #canvas-container,
+    .product-3d-container {
+        opacity: 0.3 !important; /* نخليه شفاف عشان الكلام يتقري */
+        width: 100% !important;
+    }
+    
+    .slide-content, 
+    .hero-content {
+        width: 100% !important;
+        margin-right: 0 !important;
+    }
+}
+/* --- تعديلات AI Styles الخاصة بالعربي --- */
+
+/* عكس حركة الخط اللامع (Scan Line) في الكروت ليبدأ من اليمين */
+.gema-card::before {
+    left: auto !important;
+    right: -100%;
+}
+
+.gema-card:hover::before {
+    right: 100%;
+}
+/* --- تعديلات Themes Styles الخاصة بالعربي (Manufacturing Slider) --- */
+
+/* عكس التدرج اللوني للسلايدر ليكون من اليمين لليسار */
+.slide-bg::after {
+    background: linear-gradient(270deg, var(--main-navy) 20%, transparent 80%) !important;
+}
+
+/* عكس الحدود (Borders) والمسافات (Padding) لكلمة "حالة الخط" */
+.line-status {
+    border-left: none !important;
+    padding-left: 0 !important;
+    border-right: 3px solid var(--sector-color) !important;
+    padding-right: 15px !important;
+}
+/* --- الحل النهائي للهيرو (Home Hero) في العربي --- */
+
+[dir="rtl"] .home-hero {
+    text-align: center !important; /* إجبار النص على التوسط */
+}
+
+[dir="rtl"] .hero-content {
+    margin: 0 auto !important;   /* التمركز في المنتصف */
+    float: none !important;      /* إلغاء أي فلوت قديم */
+    width: 100% !important;      /* السماح للنص بأخذ المساحة الكاملة المتاحة */
+    max-width: 900px !important;
+}
+
+[dir="rtl"] .hero-subtitle {
+    letter-spacing: 0 !important; /* الحروف العربي مش بتحب الـ letter-spacing */
+    font-family: 'Cairo', sans-serif !important;
+}
+
+/* ضبط الزراير في الهيرو للعربي */
+[dir="rtl"] .hero-btns, 
+[dir="rtl"] .action-btns {
+    display: flex !important;
+    justify-content: center !important; /* توسط الزراير */
+    gap: 20px !important;
+    flex-direction: row; /* الحفاظ على الصف في الديسكتوب */
+}
+
+/* للموبايل: نخليهم تحت بعض بس في النص */
+@media (max-width: 768px) {
+    [dir="rtl"] .hero-btns, 
+    [dir="rtl"] .action-btns {
+        flex-direction: column !important;
+        align-items: center !important;
+    }
+}
+/* --- تظبيط الفوتر (Footer RTL Fixes) --- */
+[dir="rtl"] .main-footer {
+    text-align: right !important;
+}
+
+[dir="rtl"] .main-footer .container {
+    direction: rtl !important;
+}
+
+/* تظبيط الخط الدهبي اللي تحت عناوين الفوتر عشان يبدأ من اليمين */
+[dir="rtl"] .footer-col h4::after {
+    left: auto !important;
+    right: 0 !important;
+}
+
+/* تظبيط مسافات القوائم (اللينكات) */
+[dir="rtl"] .footer-col ul {
+    padding-right: 0 !important;
+}
+
+[dir="rtl"] .footer-col ul li {
+    text-align: right !important;
+}
+
+/* لو حاطط أيقونة (زي سهم) جنب اللينكات في الفوتر نعكس اتجاهه والمسافة بتاعته */
+[dir="rtl"] .footer-col ul li a i {
+    margin-right: 0 !important;
+    margin-left: 8px !important;
+    transform: scaleX(-1) !important; /* يقلب السهم لليسار */
+}
+
+/* تظبيط أيقونات السوشيال ميديا عشان تبدأ من اليمين */
+[dir="rtl"] .social-links {
+    justify-content: flex-start !important; 
+}
+[dir="rtl"] .social-links a {
+    margin-right: 0 !important;
+    margin-left: 10px !important;
+}

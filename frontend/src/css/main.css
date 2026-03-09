@@ -1,0 +1,672 @@
+/* ==========================================================================
+   GEMA V2 - THE CORE ENGINE (MSA POWERED) - MASTER STYLESHEET (DESKTOP ONLY)
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Montserrat:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;700&family=Poppins:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --main-navy: #000b1a;
+    --gold-color: #D4AF37;
+    /* اللون المتغير للقطاعات - سيتغير بناءً على الـ Class في الـ Body */
+    --sector-color: var(--gold-color); 
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body.trade-page    { --sector-color: #FFD700; } /* ذهبي شمس للـ Trading */
+body.eng-page      { --sector-color: #E5E4E2; } /* بلاتينيوم للـ Engineering */
+body.reg-page      { --sector-color: #00FF7F; } /* أخضر للـ Regulatory */
+body.turnkey-page  { --sector-color: #00d4ff; } /* أزرق ثلجي للـ Turnkey */
+body.about-page    { --sector-color: var(--gold-color); }
+body.contact-page  { --sector-color: var(--gold-color); }
+body.mfg-page      { --sector-color: #00d4ff; } /* أزرق تكنولوجي للمصنع */
+
+* { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+}
+
+body {
+    font-family: 'Poppins', 'Cairo', sans-serif;
+    background-color: var(--main-navy);
+    color: #fff;
+    overflow-x: hidden;
+    line-height: 1.6;
+    padding-top: 80px; 
+}
+
+body.home-page, body.mfg-page {
+    padding-top: 0;
+}
+
+[rel="icon"] { display: block; }
+
+/* --- محرك الخلفية الفيديو السينمائي --- */
+#video-bg {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    z-index: -100;
+    transform: translate(-50%, -50%);
+    filter: brightness(0.4) contrast(1.1);
+    object-fit: cover; 
+}
+
+/* --- الهيدر والمنيو (الموحد) --- */
+.main-header {
+    height: 80px;
+    display: flex;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: rgba(0, 11, 26, 0.85);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: #fff !important;
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+.logo img {
+    height: 50px;
+    width: auto;
+    object-fit: contain;
+    animation: logoBreathe 4s infinite ease-in-out;
+}
+
+.logo span {
+    color: var(--sector-color);
+    transition: var(--transition);
+}
+
+.menu-toggle {
+    display: none; /* مخفي في الديسكتوب */
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 20px; 
+    align-items: center;
+    flex-wrap: nowrap; 
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.8) !important;
+    font-size: 0.85rem; 
+    font-weight: 500;
+    transition: var(--transition);
+    position: relative;
+    padding: 5px 0;
+    white-space: nowrap; 
+}
+
+.nav-links a:hover, 
+.nav-links a.active {
+    color: var(--sector-color) !important;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--sector-color);
+    transition: var(--transition);
+}
+
+.nav-links a:hover::after,
+.nav-links a.active::after {
+    width: 100%;
+}
+
+/* تنسيق الـ Dropdown في المنيو */
+.nav-dropdown { position: relative; }
+.dropdown-menu { 
+    position: absolute; top: 100%; left: 0; background: var(--main-navy); 
+    border: 1px solid var(--glass-border); display: none; list-style: none; 
+    min-width: 200px; padding: 10px 0; border-radius: 8px; z-index: 1001;
+}
+.nav-dropdown:hover .dropdown-menu { display: block; }
+.dropdown-menu li a { 
+    padding: 10px 20px; display: block; color: #fff; text-decoration: none; 
+    font-size: 0.85rem; transition: 0.3s; 
+}
+.dropdown-menu li a:hover { background: rgba(212, 175, 55, 0.1); color: var(--gold-color); }
+
+/* --- Hero Section --- */
+.home-hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding-top: 80px; 
+    position: relative;
+    z-index: 1;
+}
+
+.hero-content {
+    max-width: 900px;
+    position: relative;
+    z-index: 10;
+}
+
+.hero-subtitle {
+    color: var(--sector-color);
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    font-size: 0.85rem;
+    display: block;
+    margin-bottom: 20px;
+}
+
+.hero-content h1 {
+    font-size: clamp(2.2rem, 6vw, 4.2rem);
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 25px;
+}
+
+.hero-content h1 span {
+    color: var(--sector-color);
+}
+
+.hero-content p {
+    max-width: 760px;
+    margin: 0 auto;
+    font-size: 1.08rem;
+}
+
+.hero-btns {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 28px;
+}
+
+.hero-btns .btn-gold,
+.hero-btns .btn-outline {
+    min-width: 220px;
+    text-align: center;
+}
+
+.d-none-mobile {
+    display: inline-flex;
+}
+
+/* --- نظام الكروت الفخم (Glassmorphism) --- */
+.grid-layout {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+}
+
+.gema-card {
+    position: relative; 
+    height: 480px; 
+    background: var(--glass-bg);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    overflow: hidden; 
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; 
+    transition: var(--transition);
+    text-align: left;
+}
+
+.gema-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--sector-color);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.5), 0 0 20px rgba(212,175,55,0.2);
+}
+
+.card-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    z-index: 0; 
+    transition: transform 0.6s ease;
+}
+
+.gema-card:hover .card-image {
+    transform: scale(1.1);
+}
+
+.card-content {
+    position: relative;
+    z-index: 2; 
+    background: linear-gradient(to top, rgba(0, 11, 26, 0.95) 0%, rgba(0, 11, 26, 0.4) 60%, transparent 100%);
+    width: 100%;
+    padding: 30px;
+}
+
+.card-content h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #fff;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+}
+
+.card-content p {
+    color: rgba(255,255,255,0.8);
+    font-size: 0.95rem;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+}
+
+.category-tag {
+    color: var(--sector-color);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border: 1px solid var(--sector-color);
+    padding: 4px 12px;
+    border-radius: 50px;
+    margin-bottom: 15px;
+    display: inline-block;
+    background: rgba(0,0,0,0.3);
+}
+
+/* --- الزراير --- */
+.btn-gold {
+    background: var(--sector-color);
+    color: #000 !important;
+    padding: 14px 35px;
+    border-radius: 50px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: var(--transition);
+    display: inline-block;
+}
+
+.btn-gold:hover {
+    background: transparent;
+    color: var(--sector-color) !important;
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+    border: 1px solid var(--sector-color);
+}
+
+.btn-text {
+    color: var(--sector-color);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-top: 20px;
+    display: inline-block;
+}
+
+.news-card-shell {
+    border: 1px solid rgba(212, 175, 55, 0.26);
+    background: linear-gradient(150deg, rgba(13, 13, 13, 0.95), rgba(4, 4, 4, 0.96));
+}
+
+.news-card-tag {
+    color: #d4af37;
+    border-color: rgba(212, 175, 55, 0.35);
+}
+
+.news-card-desc {
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.news-card-link {
+    color: #f0cf69;
+}
+
+/* --- الفوتر --- */
+.main-footer {
+    background: rgba(0, 5, 10, 0.95);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    margin-top: 100px;
+}
+
+.footer-col h4 {
+    color: #fff;
+    font-size: 1.1rem;
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.footer-col h4::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 30px;
+    height: 2px;
+    background: var(--sector-color);
+}
+
+.footer-grid-layout {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 50px;
+    padding: 80px 0 40px;
+}
+
+.footer-logo {
+    margin-bottom: 20px;
+}
+
+.footer-logo-image {
+    height: 40px;
+}
+
+.footer-desc {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.footer-links-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.footer-link {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    line-height: 2.5;
+}
+
+.footer-hubs-copy {
+    margin-top: 20px;
+    font-size: 0.9rem;
+}
+
+.footer-partner-text {
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: var(--gold-color);
+}
+
+.footer-social {
+    margin-top: 20px;
+    font-size: 20px;
+    gap: 15px;
+    display: flex;
+}
+
+.footer-social-link {
+    color: var(--gold-color);
+}
+
+.footer-bottom-strip {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 30px 0;
+    text-align: center;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.nav-chevron {
+    font-size: 10px;
+    margin-left: 5px;
+}
+
+.result-icon-service {
+    color: #d4af37;
+    margin-right: 10px;
+}
+
+.result-thumb {
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+.result-type {
+    font-size: 10px;
+    color: #888;
+}
+
+.search-empty {
+    padding: 15px;
+    color: #888;
+}
+
+/* --- Utilities & Animations --- */
+.container { 
+    max-width: 1200px; 
+    margin: 0 auto; 
+    padding: 0 20px; 
+}
+.py-100 { padding: 100px 0; }
+.text-center { text-align: center; }
+
+.page-title {
+    margin-top: 20px;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+@keyframes logoBreathe {
+    0%, 100% { transform: scale(1); filter: drop-shadow(0 0 0px var(--sector-color)); }
+    50% { transform: scale(1.05); filter: drop-shadow(0 0 10px var(--sector-color)); }
+}
+
+.products-page .content-wrapper {
+    padding-top: 140px; 
+    min-height: 100vh;
+}
+
+.products-page .page-title {
+    text-align: center;
+    font-size: 3rem;
+    margin-bottom: 50px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+#products-grid {
+    opacity: 0;
+    animation: fadeIn 1s ease-in forwards;
+}
+
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+
+.mfg-page {
+    overflow-y: auto !important; 
+}
+
+/* --- 3D Element Default LTR --- */
+canvas, #canvas-container {
+    position: absolute !important;
+    z-index: 1 !important; 
+    pointer-events: none; 
+}
+
+/* ==========================================================================
+   GEMA GLOBAL - LANGUAGE SWITCHER OPTIMIZED (THE MATRIX BRIDGE)
+   ========================================================================== */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.lang-switcher {
+    position: relative;
+    padding-bottom: 15px; 
+    margin-bottom: -15px;
+}
+
+.lang-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    color: #fff;
+    padding: 8px 18px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.lang-btn:hover {
+    border-color: var(--gold-color);
+    background: rgba(212, 175, 55, 0.1);
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.1);
+}
+
+.lang-dropdown {
+    position: absolute;
+    top: 100%; 
+    right: 0;
+    background: var(--main-navy);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    list-style: none;
+    padding: 10px 0;
+    min-width: 150px;
+    display: none;
+    z-index: 1001;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(20px);
+}
+
+.lang-dropdown::before {
+    content: "";
+    position: absolute;
+    top: -20px; 
+    left: 0;
+    width: 100%;
+    height: 20px;
+    background: transparent;
+}
+
+.lang-switcher:hover .lang-dropdown {
+    display: block;
+    animation: fadeInUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.lang-dropdown li {
+    padding: 12px 20px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.8);
+    transition: all 0.2s ease;
+}
+
+.lang-dropdown li:hover {
+    background: rgba(212, 175, 55, 0.15);
+    color: var(--gold-color);
+    padding-left: 25px; 
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    /* التدرج اللوني: من الكحلي الفاتح قليلاً في المركز إلى الكحلي العميق في الأطراف */
+    background: radial-gradient(circle at center, #001f3f 0%, #000b1a 100%);
+    background-attachment: fixed; /* الخلفية تظل ثابتة أثناء التمرير */
+    position: relative;
+    color: #ffffff;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* إضافة طبقة "الشبكة الهندسية" (اختياري - تعطي مظهر تكنولوجي) */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: 
+        linear-gradient(rgba(212, 175, 55, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(212, 175, 55, 0.03) 1px, transparent 1px);
+    background-size: 50px 50px; /* حجم مربعات الشبكة */
+    z-index: -1; /* خلف المحتوى */
+    pointer-events: none;
+}
+
+/* تنعيم حواف الصفحة لإعطاء إحياء بالسينمائية */
+body::after {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: inset 0 0 100px rgba(0,0,0,0.5);
+    z-index: -1;
+    pointer-events: none;
+}
+
+body.lang-ar {
+    direction: rtl;
+    font-family: 'Cairo', sans-serif;
+}
+
+body.lang-zh {
+    direction: ltr;
+    font-family: 'Noto Sans SC', sans-serif;
+    line-height: 1.85;
+}
+
+body.lang-de {
+    direction: ltr;
+    font-family: 'Montserrat', sans-serif;
+}
+
+body.lang-de p,
+body.lang-de h1,
+body.lang-de h2,
+body.lang-de h3,
+body.lang-de h4,
+body.lang-de a,
+body.lang-de span,
+body.lang-de li {
+    hyphens: auto;
+    overflow-wrap: break-word;
+}
+
+body.lang-en,
+body.lang-tr {
+    direction: ltr;
+    font-family: 'Montserrat', sans-serif;
+}

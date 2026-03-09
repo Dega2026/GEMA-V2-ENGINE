@@ -1,0 +1,36 @@
+{
+  "name": "gema-v2-engine",
+  "version": "1.0.0",
+  "description": "GEMA Global Medical Empire - Advanced Backend System",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/start-production.js",
+    "dev": "nodemon backend/server.js",
+    "seed": "node seed.js",
+    "seed:products": "node backend/scripts/seed-products-from-assets.js",
+    "seed:hub:content": "node backend/scripts/seed-hub-page-content.js",
+    "migrate:product-sectors:once": "node backend/scripts/migrate-product-sectors-once.js",
+    "backup:run": "node backend/scripts/daily-mongo-backup.js",
+    "backup:daily": "node backend/scripts/backup-daemon.js",
+    "ai:report:once": "node backend/scripts/dailyReport.js --once",
+    "ai:report:daemon": "node backend/scripts/dailyReport.js",
+    "deploy:check": "node setup-env.js",
+    "security:audit": "npm audit --omit=dev",
+    "security:audit:full": "npm audit",
+    "security:audit:fix": "npm audit fix"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "express-rate-limit": "^7.5.1",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.2.3",
+    "multer": "^2.1.0",
+    "nodemailer": "^8.0.1",
+    "pdfkit": "^0.17.2",
+    "sharp": "^0.34.5"
+  }
+}

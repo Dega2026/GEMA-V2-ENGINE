@@ -1,0 +1,338 @@
+/* ==========================================================================
+   GEMA GLOBAL - THE MASTER THEME ENGINE (CLEAN & CRYSTAL VERSION)
+   ========================================================================== */
+
+/* 1. الهوم بيج وصفحة التواصل: الخلفيات الكونية الثابتة */
+/* body.home-page {
+    background: #000b1a url('../assets/images/bg/hero-global.jpg') no-repeat center center fixed !important;
+    background-size: cover !important;
+}
+
+body.contact-page {
+    background: #000b1a url('../assets/images/bg/contact-bg.jpg') no-repeat center center fixed !important;
+    background-size: cover !important;
+} */
+
+/* 2. تنظيف شامل لكل الصفحات الداخلية */
+[class*="-theme"] main,
+[class*="-theme"] section,
+[class*="-theme"] .main-footer,
+[class*="-theme"] .grid-layout,
+[class*="-theme"] [class*="-hero"],
+[class*="-theme"] .page-hero {
+    background: transparent !important;
+    border: none !important;
+}
+
+/* 3. توحيد شكل الكروت "القزاز" (Crystal Glass Style) */
+[class*="-theme"] .gema-card,
+[class*="-theme"] .product-card {
+    position: relative !important;
+    height: 520px !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 35px;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-end !important;
+    overflow: hidden;
+    transition: transform 0.4s ease, border-color 0.4s ease;
+}
+
+/* 4. التظليل السينمائي المزدوج (Dual Protection) */
+[class*="-theme"] .gema-card::after,
+[class*="-theme"] .product-card::after {
+    content: '' !important;
+    position: absolute !important;
+    inset: 0 !important;
+    background: linear-gradient(to top, rgba(0, 11, 26, 0.8) 0%, rgba(0, 11, 26, 0.2) 60%, transparent 85%) !important;
+    z-index: 1;
+}
+
+/* 5. نصوص الكروت (قوة الظهور) */
+[class*="-theme"] .card-content,
+[class*="-theme"] .product-info {
+    color: #ffffff !important;
+    z-index: 2;
+    padding: 30px;
+}
+
+[class*="-theme"] .card-content h3,
+[class*="-theme"] .product-info h3 {
+    color: #ffffff !important;
+    font-weight: 800;
+    text-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);
+}
+
+/* 6. ربط صور القطاعات والمنتجات */
+.card-man .card-image { background-image: url('../assets/images/sectors/manufacturing.jpg') !important; }
+.card-prod .card-image { background-image: url('../assets/images/sectors/products.jpg') !important; }
+.card-trade .card-image { background-image: url('../assets/images/sectors/trading.jpg') !important; }
+.card-eng .card-image { background-image: url('../assets/images/sectors/engineering.jpg') !important; }
+.card-reg .card-image { background-image: url('../assets/images/sectors/regulatory.jpg') !important; }
+.card-turnkey .card-image { background-image: url('../assets/images/sectors/turnkey.jpg') !important; }
+
+/* 7. تأثير الحركة المغناطيسية (Magnetic Hover) */
+[class*="-theme"] .gema-card:hover,
+[class*="-theme"] .product-card:hover {
+    transform: translateY(-15px) scale(1.02);
+    border-color: rgba(0, 255, 255, 0.4) !important;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 168, 168, 0.2);
+}
+
+.card-image, .product-image {
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[class*="-theme"] .gema-card:hover .card-image {
+    transform: scale(1.1);
+}
+
+/* 8. الأزرار الـ Outline المتوهجة */
+.btn-outline {
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.3) !important;
+    color: #fff !important;
+    padding: 12px 28px;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: all 0.4s ease !important;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+}
+
+.btn-outline:hover {
+    background: var(--sector-color, #D4AF37) !important;
+    border-color: var(--sector-color, #D4AF37) !important;
+    color: #000 !important;
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
+    transform: translateY(-3px);
+}
+
+/* 9. طبقة حماية خلف الكلام (Radial Protection) */
+[class*="-theme"] main::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at center, transparent 0%, rgba(0, 11, 26, 0.4) 100%);
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* --- Manufacturing Slider Styles --- */
+.mfg-page { overflow: hidden; }
+
+.mfg-slider { width: 100%; height: 100vh; }
+
+.line-slide {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 0 10%;
+}
+
+.slide-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    z-index: 1;
+    filter: brightness(0.5);
+}
+
+/* (النسخة العالمية: تدرج من اليسار لليمين) */
+.slide-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, var(--main-navy) 20%, transparent 80%);
+}
+
+.slide-content {
+    position: relative;
+    z-index: 5;
+    max-width: 600px;
+}
+
+/* (النسخة العالمية: الحدود على اليسار) */
+.line-status {
+    color: var(--sector-color);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-size: 0.8rem;
+    border-left: 3px solid var(--sector-color);
+    padding-left: 15px;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.slide-content h2 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    line-height: 1.1;
+    margin-bottom: 25px;
+}
+
+.slide-content h2 span { color: var(--sector-color); }
+
+.line-specs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.spec-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: rgba(255,255,255,0.8);
+    font-size: 0.9rem;
+}
+
+.spec-item i { color: var(--sector-color); }
+/* تمييز كارت الـ SFDA */
+.sfda-special {
+    border: 1px solid rgba(0, 255, 255, 0.3) !important;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
+}
+.sfda-special:hover {
+    border-color: #00ffff !important;
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+}
+
+/* --- Sidebar Map (Phase 3: Empire Sitemap) --- */
+.sidebar-map {
+    position: relative;
+    margin: 20px 0 34px;
+    border-radius: 24px;
+    overflow: hidden;
+    border: 1px solid rgba(212, 175, 55, 0.28);
+    background: linear-gradient(130deg, rgba(3, 13, 30, 0.92), rgba(7, 21, 43, 0.86));
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.sidebar-map-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at 10% 15%, rgba(212, 175, 55, 0.16), transparent 45%),
+        radial-gradient(circle at 85% 90%, rgba(125, 196, 255, 0.14), transparent 40%);
+}
+
+.sidebar-map-inner {
+    position: relative;
+    z-index: 1;
+    padding: 22px;
+}
+
+.sidebar-map-title {
+    margin: 0;
+    font-size: clamp(1.2rem, 2.4vw, 1.6rem);
+    color: var(--gold, #D4AF37);
+    letter-spacing: 0.6px;
+}
+
+.sidebar-map-subtitle {
+    margin: 8px 0 18px;
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 0.95rem;
+}
+
+.sidebar-map-worlds {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.sidebar-map-world {
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
+    padding: 14px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.sidebar-map-world:hover {
+    transform: translateY(-4px);
+    border-color: rgba(212, 175, 55, 0.52);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.26);
+}
+
+.sidebar-map-world-head {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 7px;
+}
+
+.sidebar-map-world-head i {
+    color: var(--gold, #D4AF37);
+    font-size: 0.98rem;
+}
+
+.sidebar-map-world-head h3 {
+    margin: 0;
+    font-size: 1rem;
+    color: #ffffff;
+}
+
+.sidebar-map-world-desc {
+    margin: 0 0 10px;
+    font-size: 0.86rem;
+    color: rgba(255, 255, 255, 0.76);
+    line-height: 1.45;
+}
+
+.sidebar-map-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 7px;
+}
+
+.sidebar-map-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: #ffffff;
+    text-decoration: none;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 999px;
+    padding: 7px 11px;
+    font-size: 0.82rem;
+    background: rgba(255, 255, 255, 0.06);
+    transition: all 0.22s ease;
+}
+
+.sidebar-map-link:hover {
+    color: #030914;
+    background: var(--gold, #D4AF37);
+    border-color: var(--gold, #D4AF37);
+    box-shadow: 0 0 18px rgba(212, 175, 55, 0.28);
+}
+
+@media (max-width: 980px) {
+    .sidebar-map-worlds {
+        grid-template-columns: 1fr;
+    }
+}
+
+[dir="rtl"] .sidebar-map {
+    direction: rtl;
+}
+
+[dir="rtl"] .sidebar-map-world-head {
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}
+
+[dir="rtl"] .sidebar-map-link {
+    justify-content: flex-end;
+}

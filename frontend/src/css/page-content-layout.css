@@ -1,0 +1,38 @@
+.page-main-offset {
+  padding-top: 140px;
+}
+
+.gema-card-shell {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+}
+
+.page-card-image {
+  background-size: cover;
+  background-position: center;
+}
+
+.about-vision-panel {
+  margin-top: 100px;
+  text-align: center;
+  background: var(--glass-bg);
+  padding: 60px;
+  border-radius: 20px;
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(15px);
+}
+
+.about-vision-title {
+  color: var(--gold-color);
+  margin-bottom: 20px;
+}
+
+.about-vision-text {
+  max-width: 800px;
+  margin: 0 auto;
+  font-size: 1.2rem;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.9);
+}

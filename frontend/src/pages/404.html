@@ -1,0 +1,87 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>404 | GEMA Empire</title>
+    <meta name="description" content="The page you are looking for does not exist in the GEMA Empire." />
+    <meta name="robots" content="noindex,nofollow" />
+    <style>
+      :root {
+        --bg-1: #040404;
+        --bg-2: #111111;
+        --gold: #d4af37;
+        --gold-soft: #f0d784;
+        --text: #f7f3e5;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        background:
+          radial-gradient(circle at 20% 20%, rgba(212, 175, 55, 0.15), transparent 36%),
+          radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.1), transparent 34%),
+          linear-gradient(140deg, var(--bg-1), var(--bg-2));
+        color: var(--text);
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      .frame {
+        width: min(720px, 92vw);
+        border: 1px solid rgba(212, 175, 55, 0.5);
+        border-radius: 18px;
+        padding: 36px 28px;
+        text-align: center;
+        background: rgba(0, 0, 0, 0.55);
+        box-shadow: 0 20px 80px rgba(0, 0, 0, 0.45);
+      }
+
+      .logo {
+        width: 120px;
+        height: auto;
+        margin-bottom: 10px;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(2.4rem, 9vw, 5rem);
+        color: var(--gold-soft);
+        letter-spacing: 2px;
+      }
+
+      p {
+        margin: 14px 0 0;
+        line-height: 1.7;
+        color: #e8dfc5;
+      }
+
+      .btn-home {
+        margin-top: 24px;
+        display: inline-block;
+        text-decoration: none;
+        color: #1a1a1a;
+        background: linear-gradient(130deg, var(--gold), var(--gold-soft));
+        padding: 12px 24px;
+        border-radius: 999px;
+        font-weight: 700;
+      }
+
+      .btn-home:hover {
+        filter: brightness(1.08);
+      }
+    </style>
+  </head>
+  <body>
+    <main class="frame">
+      <img src="/assets/branding/logo-GEMA.png" alt="GEMA" class="logo" />
+      <h1>404</h1>
+      <p>The page is outside the GEMA map.<br />Return to home and continue browsing.</p>
+      <a class="btn-home" href="/">Back to Home</a>
+    </main>
+  </body>
+</html>
+

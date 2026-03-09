@@ -1,0 +1,76 @@
+/* --- ترويشة صفحة التصنيع النهائية --- */
+.mfg-page { background: #000; overflow: hidden; }
+
+.mfg-slider { 
+    height: 100vh; 
+    width: 100%; 
+    position: relative; /* مهم جداً عشان الأسطوانة تتنسب ليه */
+}
+
+.slide-bg.bg-mfg-main {
+    background-image: url('/assets/images/sectors/manufacturing.jpg');
+    opacity: 0.6;
+}
+
+.slide-bg.bg-mfg-eng {
+    background-image: url('/assets/images/sectors/engineering.jpg');
+    opacity: 0.6;
+}
+
+.slide-bg.bg-mfg-turnkey {
+    background-image: url('/assets/images/sectors/turnkey.jpg');
+    opacity: 0.6;
+}
+
+.line-specs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 30px 0;
+}
+
+.mfg-nav-btn {
+    color: var(--gold-color);
+}
+
+/* تنسيق النص جوه السلايد */
+.slide-content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 50%; /* بياخد نص الشاشة بس */
+    position: relative;
+    z-index: 10;
+    padding: 0 5%;
+    box-sizing: border-box;
+}
+
+/* ضبط الاتجاه: النص شمال في الإنجليزي */
+[dir="ltr"] .slide-content { margin-left: 0; margin-right: auto; text-align: left; }
+
+/* ضبط الاتجاه: النص يمين في العربي */
+[dir="rtl"] .slide-content { margin-right: 0; margin-left: auto; text-align: right; }
+
+/* حاوية الأسطوانة (Global Container) */
+#canvas-container {
+    position: absolute;
+    top: 0;
+    width: 50% !important; /* ثابتة في نص الشاشة */
+    height: 100vh;
+    z-index: 5;
+    pointer-events: none;
+    transition: all 0.5s ease; /* حركة ناعمة وقت قلب اللغة */
+}
+
+/* الأسطوانة يمين في الإنجليزي */
+[dir="ltr"] #canvas-container { right: 0; left: auto; }
+
+/* الأسطوانة شمال في العربي */
+[dir="rtl"] #canvas-container { left: 0; right: auto; }
+
+/* الموبايل: الأسطوانة خلفية شفافة تحت الكلام */
+@media (max-width: 768px) {
+    .slide-content { width: 100%; text-align: center !important; padding-top: 50px; }
+    #canvas-container { width: 100% !important; opacity: 0.4; z-index: 1; }
+}

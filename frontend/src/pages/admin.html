@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GEMA | Admin Dashboard</title>
+    <meta name="description" content="GEMA V2 Admin Control Center" />
+    <meta name="robots" content="noindex,nofollow" />
+    <meta property="og:title" content="GEMA | Admin Dashboard" />
+    <meta property="og:description" content="GEMA V2 Admin Control Center" />
+    <meta property="og:image" content="/assets/branding/logo-GEMA.png" />
+    <meta name="twitter:card" content="summary" />
+    
+    <link rel="stylesheet" href="/css/all.min.css" />
+    <link rel="stylesheet" href="/css/admin.css" />
+    <link rel="icon" type="image/x-icon" href="/assets/icons/favicon.ico" />
+    </head>
+
+
+<body class="admin-page">
+    <!-- ============================================================
+         LOGIN PORTAL (Full-Screen Overlay)
+         ============================================================ -->
+    <div class="login-portal" id="login-overlay">
+        <div class="login-container">
+            <div class="login-box">
+                <img src="/assets/branding/logo-GEMA.png" alt="GEMA Logo" class="login-logo" />
+                <h2><i class="fas fa-crown"></i> GEMA <span>ADMIN</span></h2>
+                <p>Authorized Personnel Only</p>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label><i class="fas fa-user-shield"></i> Username</label>
+                        <input 
+                            type="text" 
+                            name="username" 
+                            placeholder="GEMA Username" 
+                            required 
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-lock"></i> Password</label>
+                        <div class="password-input-wrap">
+                            <input 
+                                type="password" 
+                                name="password" 
+                                placeholder="••••••••" 
+                                required 
+                            />
+                            <button type="button" class="password-toggle-btn" data-toggle-password aria-label="Show password" aria-pressed="false">
+                                <i class="fas fa-eye" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-login">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </button>
+                </form>
+                <p class="login-footer">v2.7 Imperial Edition</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="login-success-ceremony" id="login-success-ceremony" aria-hidden="true">
+        <div class="auth-status-card" id="auth-status-card" role="status" aria-live="polite">
+            <div class="auth-status-icon" id="auth-status-icon" aria-hidden="true">✓</div>
+            <h3 class="auth-status-title" id="auth-status-title">Welcome back</h3>
+            <p class="auth-status-message" id="auth-status-message">Access granted. Opening your dashboard...</p>
+        </div>
+    </div>
+
+    <div class="smart-hud" id="smart-hud" aria-hidden="true">
+        <div class="smart-hud-panel" role="dialog" aria-modal="true" aria-label="Quick navigation">
+            <div class="smart-hud-head">
+                <i class="fas fa-bolt"></i>
+                <span>GEMA Smart HUD</span>
+                <kbd>Ctrl + K</kbd>
+            </div>
+            <div class="smart-hud-search-wrap">
+                <i class="fas fa-search"></i>
+                <input id="smart-hud-input" type="text" autocomplete="off" placeholder="Jump to module..." />
+            </div>
+            <ul class="smart-hud-results" id="smart-hud-results"></ul>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         ADMIN DASHBOARD (Main Layout)
+         ============================================================ -->
+    <div class="admin-dashboard" id="admin-dashboard">
+        <!-- ======== SIDEBAR ======== -->
+        <aside class="admin-sidebar">
+            <div class="sidebar-header">
+                <h2><i class="fas fa-crown"></i> GEMA</h2>
+                <p id="user-role-display">Command Center</p>
+            </div>
+
+            <ul class="sidebar-nav" id="sidebar-nav">
+                <li class="nav-item active" data-section="products">
+                    <i class="fas fa-box-open"></i>
+                    <span>Products Matrix</span>
+                </li>
+                <li class="nav-item" data-section="projects">
+                    <i class="fas fa-hard-hat"></i>
+                    <span>Turnkey Projects</span>
+                </li>
+                <li class="nav-item" data-section="machinery">
+                    <i class="fas fa-industry"></i>
+                    <span>Engineering Hub</span>
+                </li>
+                <li class="nav-item" data-section="regulatory">
+                    <i class="fas fa-file-signature"></i>
+                    <span>Regulatory</span>
+                </li>
+                <li class="nav-item" data-section="staff">
+                    <i class="fas fa-users-cog"></i>
+                    <span>Staff Management</span>
+                </li>
+                <li class="nav-item" data-section="newsroom">
+                    <i class="fas fa-broadcast-tower"></i>
+                    <span>GEMA Broadcast</span>
+                </li>
+                <li class="nav-item" data-section="page-manager">
+                    <i class="fas fa-globe"></i>
+                    <span>Universal Page Manager</span>
+                </li>
+                <li class="nav-item" data-section="operations">
+                    <i class="fas fa-gears"></i>
+                    <span>Operations Manager</span>
+                </li>
+                <li class="nav-item" data-section="about-manager">
+                    <i class="fas fa-address-card"></i>
+                    <span>About Manager</span>
+                </li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <button class="btn-logout" id="btn-logout">
+                    <i class="fas fa-power-off"></i> Disconnect
+                </button>
+            </div>
+        </aside>
+
+        <!-- ======== MAIN AREA ======== -->
+        <main class="admin-main">
+            <div class="admin-top-header">
+                <div class="admin-top-header__brand">
+                    <h1 data-admin-i18n="title">Administration Command Center</h1>
+                    <p data-admin-i18n="subtitle">Unified control for all modules and specialties</p>
+                </div>
+                <div class="admin-lang-switch">
+                    <label for="admin-language-select" data-admin-i18n="languageLabel">Language</label>
+                    <select id="admin-language-select" aria-label="Admin language selector">
+                        <option value="en">English</option>
+                        <option value="ar">العربية</option>
+                        <option value="de">Deutsch</option>
+                        <option value="zh">中文</option>
+                        <option value="tr">Türkçe</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Dashboard Header with Widgets -->
+            <div class="dashboard-header">
+                <div class="widgets-grid">
+                    <div class="widget-card">
+                        <i class="fas fa-cube"></i>
+                        <div>
+                            <h3 id="widget-total-products">0</h3>
+                            <p>Total Products</p>
+                        </div>
+                    </div>
+                    <div class="widget-card">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <div>
+                            <h3 id="widget-matrix-value">0</h3>
+                            <p>Matrix Value (EGP)</p>
+                        </div>
+                    </div>
+                    <div class="widget-card">
+                        <i class="fas fa-exchange-alt"></i>
+                        <div>
+                            <h3 id="widget-exchange-rate">-</h3>
+                            <p>USD/EGP Rate</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ======== SECTIONS ======== -->
+            
+            <!-- PRODUCTS SECTION -->
+            <section class="admin-section active" id="section-products">
+                <div class="section-header">
+                    <h2>Product <span>Deployment</span></h2>
+                </div>
+
+                <div class="section-content">
+                    <!-- Search & Filter Bar -->
+                    <div class="search-filter-bar">
+                        <i class="fas fa-search"></i>
+                        <input 
+                            type="text" 
+                            id="product-search" 
+                            placeholder="Search products by name..."
+                            class="search-input"
+                        />
+                        <select id="specialty-filter" class="filter-select">
+                            <option value="all">All Specialties</option>
+                            <option value="Cardiology">Cardiology</option>
+                            <option value="Dental">Dental</option>
+                            <option value="IV Fluids">IV Fluids</option>
+                            <option value="OR Solutions">OR Solutions</option>
+                            <option value="Consumables">Consumables</option>
+                            <option value="General">General</option>
+                            <option value="Manufacturing Components">Manufacturing Components / مكونات تصنيع</option>
+                            <option value="Imported Raw Materials">Imported Raw Materials / مواد خام مستوردة</option>
+                            <option value="Pharmacies">Pharmacies / صيدليات</option>
+                        </select>
+                    </div>
+
+                    <!-- Main Grid -->
+                    <div class="section-grid">
+                        <!-- Add Product Form -->
+                        <div class="form-container">
+                            <h3><i class="fas fa-plus-circle"></i> Add New Product</h3>
+                            <form id="form-add-product" enctype="multipart/form-data">
+                                <!-- Basic Info -->
+                                <div class="form-group">
+                                    <label>Product Name *</label>
+                                    <input type="text" name="name" placeholder="e.g. Safety Syringe 3-Part" required />
+                                </div>
+
+                                <!-- Price & Currency -->
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Price *</label>
+                                        <input type="number" name="price" placeholder="0.00" step="0.01" min="0" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Currency *</label>
+                                        <select name="currency" required>
+                                            <option value="USD">USD ($)</option>
+                                            <option value="EGP">EGP (£)</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Category & Specialty -->
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Category *</label>
+                                        <select name="category" required>
+                                            <option value="">Select Category</option>
+                                            <option value="Manufacturing">Manufacturing</option>
+                                            <option value="Trading">Trading</option>
+                                            <option value="Engineering">Engineering</option>
+                                            <option value="RawMaterial">Raw Materials / خامات</option>
+                                            <option value="Component">Components / مكونات</option>
+                                            <option value="MedicalCosmetics">Medical Cosmetics / تجميل طبي</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Specialty *</label>
+                                        <select name="specialty" required>
+                                            <option value="">Select Specialty</option>
+                                            <option value="Cardiology">Cardiology</option>
+                                            <option value="Dental">Dental</option>
+                                            <option value="IV Fluids">IV Fluids</option>
+                                            <option value="OR Solutions">OR Solutions</option>
+                                            <option value="Consumables">Consumables</option>
+                                            <option value="General">General</option>
+                                            <option value="Manufacturing Components">Manufacturing Components / مكونات تصنيع</option>
+                                            <option value="Imported Raw Materials">Imported Raw Materials / مواد خام مستوردة</option>
+                                            <option value="Pharmacies">Pharmacies / صيدليات</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Sector *</label>
+                                        <select name="sector" required>
+                                            <option value="Equipment">Equipment / معدات</option>
+                                            <option value="RawMaterial">Raw Material / مواد خام</option>
+                                            <option value="Component">Component / مكون</option>
+                                            <option value="Cosmetic">Cosmetic / تجميلي</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Origin *</label>
+                                        <select name="productOrigin" required>
+                                            <option value="Internal">Internal / داخلي</option>
+                                            <option value="Commercial">Commercial / تجاري</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Logistics *</label>
+                                        <select name="logistics" required>
+                                            <option value="Local">Local / محلي</option>
+                                            <option value="Import">Import / استيراد</option>
+                                            <option value="Export">Export / تصدير</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Description -->
+                                <div class="form-group">
+                                    <label>Description *</label>
+                                    <textarea name="description" rows="3" placeholder="Technical overview..." required></textarea>
+                                </div>
+
+                                <!-- Technical Specs -->
+                                <div class="form-group">
+                                    <label class="specs-label">Technical Specifications</label>
+                                </div>
+                                <div class="specs-grid">
+                                    <input type="text" name="material" placeholder="Material" />
+                                    <input type="text" name="origin" placeholder="Origin Country" />
+                                    <input type="text" name="compliance" placeholder="Compliance Standards" />
+                                    <input type="text" name="sterilization" placeholder="Sterilization Method" />
+                                    <input type="text" name="sizes" placeholder="Available Sizes" />
+                                    <input type="text" name="components" placeholder="Key Components" />
+                                </div>
+
+                                <!-- File Uploads -->
+                                <div class="form-group">
+                                    <label>Product Image *</label>
+                                    <input type="file" name="productImage" accept="image/*" required />
+                                </div>
+                                <div class="form-group">
+                                    <label>Product Datasheet (PDF)</label>
+                                    <input type="file" name="datasheet" accept=".pdf" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Datasheet URL (Google Drive or Direct Link)</label>
+                                    <input
+                                        type="url"
+                                        name="datasheetUrl"
+                                        placeholder="https://drive.google.com/file/d/.../view"
+                                    />
+                                </div>
+
+                                <button type="submit" class="btn-deploy">
+                                    <i class="fas fa-rocket"></i> DEPLOY TO DATABASE
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Live Inventory List -->
+                        <div class="inventory-container">
+                            <h3><i class="fas fa-list"></i> Live Inventory</h3>
+                            <div class="inventory-list" id="inventory-list">
+                                <p class="loading">Loading products...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- UNIVERSAL PAGE MANAGER SECTION -->
+            <section class="admin-section" id="section-page-manager">
+                <div class="section-header">
+                    <h2>Universal <span>Page Manager</span></h2>
+                </div>
+                <div class="section-content">
+                    <div class="section-grid">
+                        <div class="form-container">
+                            <h3><i class="fas fa-database"></i> Manage Any Page Content</h3>
+                            <div class="form-group">
+                                <label>Select Page Slug</label>
+                                <select id="universal-page-slug">
+                                    <option value="header">header</option>
+                                    <option value="footer">footer</option>
+                                    <option value="home">home</option>
+                                    <option value="hub">hub</option>
+                                    <option value="about">about</option>
+                                    <option value="news">news</option>
+                                    <option value="products">products</option>
+                                    <option value="trading">trading</option>
+                                    <option value="direct-sourcing">direct-sourcing</option>
+                                    <option value="logistics">logistics</option>
+                                    <option value="manufacturing">manufacturing</option>
+                                    <option value="engineering">engineering</option>
+                                    <option value="regulatory">regulatory</option>
+                                    <option value="turnkey">turnkey</option>
+                                    <option value="contact">contact</option>
+                                    <option value="quote">quote</option>
+                                    <option value="service-details">service-details</option>
+                                </select>
+                            </div>
+
+                            <form id="form-universal-page-manager">
+                                <div class="form-group">
+                                    <label>Arabic (AR) JSON</label>
+                                    <textarea id="page-content-ar" rows="8" placeholder='{"title":"...","cards":[]}'></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>English (EN) JSON</label>
+                                    <textarea id="page-content-en" rows="8" placeholder='{"title":"...","cards":[]}'></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>German (DE) JSON</label>
+                                    <textarea id="page-content-de" rows="8" placeholder='{"title":"...","cards":[]}'></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Chinese (ZH) JSON</label>
+                                    <textarea id="page-content-zh" rows="8" placeholder='{"title":"...","cards":[]}'></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Turkish (TR) JSON</label>
+                                    <textarea id="page-content-tr" rows="8" placeholder='{"title":"...","cards":[]}'></textarea>
+                                </div>
+
+                                <button type="submit" class="btn-deploy">
+                                    <i class="fas fa-save"></i> SAVE ALL LANGUAGES
+                                </button>
+                            </form>
+                        </div>
+                        <div class="inventory-container">
+                            <h3><i class="fas fa-code"></i> Live Summary</h3>
+                            <div class="inventory-list" id="universal-page-summary">
+                                <p class="loading">Select a slug to load content payload...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- OPERATIONS MANAGEMENT SECTION -->
+            <section class="admin-section" id="section-operations">
+                <div class="section-header">
+                    <h2>Page <span>Manager - Operations</span></h2>
+                </div>
+                <div class="section-content">
+                    <div class="section-grid">
+                        <div class="form-container">
+                            <h3><i class="fas fa-cogs"></i> Edit Operations Page Content</h3>
+                            <div class="form-group">
+                                <label>Select Page</label>
+                                <select id="operations-page-slug">
+                                    <option value="direct-sourcing">Direct Sourcing</option>
+                                    <option value="logistics">Logistics</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Select Language</label>
+                                <select id="operations-lang">
+                                    <option value="ar">Arabic (AR)</option>
+                                    <option value="en">English (EN)</option>
+                                    <option value="de">German (DE)</option>
+                                    <option value="zh">Chinese (ZH)</option>
+                                    <option value="tr">Turkish (TR)</option>
+                                </select>
+                            </div>
+                            <form id="form-operations-content">
+                                <div class="form-group">
+                                    <label>Main Title *</label>
+                                    <input type="text" id="operations-title" required />
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Card 1 Title *</label>
+                                        <input type="text" id="operations-card1-title" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Card 1 Image</label>
+                                        <input type="file" id="operations-card1-image" accept="image/*" />
+                                        <input type="text" id="operations-card1-image-url" placeholder="Image URL" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Card 1 Text *</label>
+                                    <textarea id="operations-card1-text" rows="3" required></textarea>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Card 2 Title *</label>
+                                        <input type="text" id="operations-card2-title" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Card 2 Image</label>
+                                        <input type="file" id="operations-card2-image" accept="image/*" />
+                                        <input type="text" id="operations-card2-image-url" placeholder="Image URL" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Card 2 Text *</label>
+                                    <textarea id="operations-card2-text" rows="3" required></textarea>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Card 3 Title *</label>
+                                        <input type="text" id="operations-card3-title" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Card 3 Image</label>
+                                        <input type="file" id="operations-card3-image" accept="image/*" />
+                                        <input type="text" id="operations-card3-image-url" placeholder="Image URL" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Card 3 Text *</label>
+                                    <textarea id="operations-card3-text" rows="3" required></textarea>
+                                </div>
+
+                                <button type="submit" class="btn-deploy">
+                                    <i class="fas fa-save"></i> SAVE OPERATIONS CONTENT
+                                </button>
+                            </form>
+                        </div>
+                        <div class="inventory-container">
+                            <h3><i class="fas fa-eye"></i> Live Preview</h3>
+                            <div class="inventory-list" id="operations-preview">
+                                <p class="loading">Choose page and language to load content...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section-grid" style="margin-top: 20px;">
+                        <div class="form-container">
+                            <h3><i class="fas fa-funnel-dollar"></i> Leads CRM</h3>
+                            <form id="form-add-lead">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Full Name *</label>
+                                        <input type="text" name="fullName" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Email *</label>
+                                        <input type="email" name="email" required />
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Company</label>
+                                        <input type="text" name="company" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Phone</label>
+                                        <input type="text" name="phone" />
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Module</label>
+                                        <input type="text" name="module" placeholder="Products / Regulatory / Engineering..." />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Specialty</label>
+                                        <input type="text" name="specialty" placeholder="Cardiology / Turnkey / Compliance..." />
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Value Estimate</label>
+                                        <input type="number" name="valueEstimate" min="0" step="0.01" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Currency</label>
+                                        <select name="currency">
+                                            <option value="EGP">EGP</option>
+                                            <option value="USD">USD</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Notes</label>
+                                    <textarea name="notes" rows="3"></textarea>
+                                </div>
+                                <button type="submit" class="btn-deploy">
+                                    <i class="fas fa-user-plus"></i> ADD LEAD
+                                </button>
+                            </form>
+                        </div>
+                        <div class="inventory-container">
+                            <h3><i class="fas fa-chart-line"></i> Funnel & Leads</h3>
+                            <div class="inventory-list" id="leads-list">
+                                <p class="loading">Loading leads...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section-grid" style="margin-top: 20px;">
+                        <div class="inventory-container" style="grid-column: 1 / -1;">
+                            <h3><i class="fas fa-chart-pie"></i> Business Analytics Summary</h3>
+                            <div class="inventory-list" id="analytics-summary">
+                                <p class="loading">Loading analytics...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section-grid" style="margin-top: 20px;">
+                        <div class="form-container">
+                            <h3><i class="fas fa-paper-plane"></i> Follow-up Automation</h3>
+                            <form id="form-create-followup">
+                                <div class="form-group">
+                                    <label>Lead *</label>
+                                    <select name="leadId" id="followup-lead-id" required>
+                                        <option value="">Select lead...</option>
+                                    </select>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Template</label>
+                                        <select name="templateKey">
+                                            <option value="intro">intro</option>
+                                            <option value="proposal">proposal</option>
+                                            <option value="reminder">reminder</option>
+                                            <option value="closure">closure</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Delay (days)</label>
+                                        <input type="number" name="daysFromNow" min="0" max="30" value="0" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Subject *</label>
+                                    <input type="text" name="subject" required />
+                                </div>
+                                <div class="form-group">
+                                    <label>Custom Message (optional)</label>
+                                    <textarea name="message" rows="3"></textarea>
+                                </div>
+                                <button type="submit" class="btn-deploy">
+                                    <i class="fas fa-bolt"></i> CREATE FOLLOW-UP
+                                </button>
+                            </form>
+                        </div>
+                        <div class="inventory-container">
+                            <h3><i class="fas fa-stream"></i> Follow-up Jobs</h3>
+                            <div class="inventory-list" id="automation-jobs-list">
+                                <p class="loading">Loading follow-up jobs...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section-grid" style="margin-top: 20px;">
+                        <div class="form-container">
+                            <h3><i class="fas fa-link"></i> Client Portal Link Builder</h3>
+                            <form id="form-create-portal-link">
+                                <div class="form-group">
+                                    <label>Report *</label>
+                                    <select name="reportId" id="portal-report-id" required>
+                                        <option value="">Select report...</option>
+                                    </select>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Client Name</label>
+                                        <input type="text" name="clientName" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Client Email *</label>
+                                        <input type="email" name="clientEmail" required />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Link Expiry (days)</label>
+                                    <input type="number" name="expiresInDays" min="1" max="90" value="10" />
+                                </div>
+                                <button type="submit" class="btn-deploy">
+                                    <i class="fas fa-key"></i> GENERATE PORTAL LINK
+                                </button>
+                            </form>
+                            <div class="inventory-list" id="portal-link-result" style="margin-top:12px;">
+                                <p class="loading">Generated links will appear here.</p>
+                            </div>
+                        </div>
+                        <div class="inventory-container">
+                            <h3><i class="fas fa-shield-alt"></i> Audit Log</h3>
+                            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;">
+                                <button type="button" class="btn-action btn-action-gold" id="btn-refresh-audit">
+                                    <i class="fas fa-sync-alt"></i> Refresh Audit
+                                </button>
+                                <button type="button" class="btn-action btn-action-gold" id="btn-export-audit">
+                                    <i class="fas fa-file-csv"></i> Export CSV
+                                </button>
+                            </div>
+                            <div class="inventory-list" id="audit-log-list">
+                                <p class="loading">Loading audit logs...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ABOUT MANAGER SECTION -->
+            <section class="admin-section" id="section-about-manager">
+                <div class="section-header">
+                    <h2>Page <span>Manager - About</span></h2>
+                </div>
+                <div class="section-content">
+                    <div class="section-grid">
+                        <div class="form-container">
+                            <h3><i class="fas fa-pen-square"></i> Edit About Page Cards</h3>
+                            <div class="form-group">
+                                <label>Select Language</label>
+                                <select id="about-manager-lang">
+                                    <option value="ar">Arabic (AR)</option>
+                                    <option value="en">English (EN)</option>
+                                    <option value="de">German (DE)</option>
+                                    <option value="zh">Chinese (ZH)</option>
+                                    <option value="tr">Turkish (TR)</option>
+                                </select>
+                            </div>
+                            <form id="form-about-content">
+                                <div class="form-group">
+                                    <label>Main Title *</label>
+                                    <input type="text" id="about-title" required />
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Card 1 Title (Riyadh & Shanghai) *</label>
+                                        <input type="text" id="about-card1-title" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Card 1 Image</label>
+                                        <input type="file" id="about-card1-image" accept="image/*" />
+                                        <input type="text" id="about-card1-image-url" placeholder="Image URL" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Card 1 Text *</label>
+                                    <textarea id="about-card1-text" rows="3" required></textarea>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Card 2 Title (Digital Intelligence) *</label>
+                                        <input type="text" id="about-card2-title" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Card 2 Image</label>
+                                        <input type="file" id="about-card2-image" accept="image/*" />
+                                        <input type="text" id="about-card2-image-url" placeholder="Image URL" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Card 2 Text *</label>
+                                    <textarea id="about-card2-text" rows="3" required></textarea>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Card 3 Title (Industrial Excellence) *</label>
+                                        <input type="text" id="about-card3-title" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Card 3 Image</label>
+                                        <input type="file" id="about-card3-image" accept="image/*" />
+                                        <input type="text" id="about-card3-image-url" placeholder="Image URL" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Card 3 Text *</label>
+                                    <textarea id="about-card3-text" rows="3" required></textarea>
+                                </div>
+
+                                <button type="submit" class="btn-deploy">
+                                    <i class="fas fa-save"></i> SAVE ABOUT CONTENT
+                                </button>
+                            </form>
+                        </div>
+                        <div class="inventory-container">
+                            <h3><i class="fas fa-eye"></i> About Preview</h3>
+                            <div class="inventory-list" id="about-preview">
+                                <p class="loading">Choose language to load About content...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PROJECTS SECTION -->
+            <section class="admin-section" id="section-projects">
+                <div class="section-header">
+                    <h2>Turnkey <span>Projects</span></h2>
+                </div>
+                <div class="section-content">
+                    <div class="section-grid">
+                        <div class="form-container">
+                            <h3><i class="fas fa-hard-hat"></i> Log New Project</h3>
+                            <form id="form-add-project" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <label>Project Name *</label>
+                                    <input type="text" name="projectName" placeholder="Project name" required />
+                                </div>
+                                <div class="form-group">
+                                    <label>Location *</label>
+                                    <input type="text" name="location" placeholder="Project location" required />
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Status *</label>
+                                        <select name="status" required>
+                                            <option value="Planning">Planning</option>
+                                            <option value="InProgress">In Progress</option>
+                                            <option value="Completed">Completed</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Progress % *</label>
+                                        <input type="number" name="progress" min="0" max="100" value="0" required />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Description *</label>
+                                    <textarea name="description" rows="4" placeholder="Project description" required></textarea>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Budget / Price *</label>
+                                        <input type="number" name="price" min="0" step="0.01" placeholder="0.00" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Currency *</label>
+                                        <select name="currency" required>
+                                            <option value="USD">USD ($)</option>
+                                            <option value="EGP" selected>EGP (L.E)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Cover Image *</label>
+                                    <input type="file" name="projectImage" accept="image/*" required />
+                                </div>
+                                <button type="submit" class="btn-deploy">
+                                    <i class="fas fa-rocket"></i> DEPLOY PROJECT
+                                </button>
+                            </form>
+                        </div>
+                        <div class="inventory-container">
+                            <h3><i class="fas fa-list"></i> Project Portfolio</h3>
+                            <div class="inventory-list" id="projects-list">
+                                <p class="loading">Loading projects...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- MACHINERY SECTION -->
+            <section class="admin-section" id="section-machinery">
+                <div class="section-header">
+                    <h2>Engineering <span>Hub Machinery</span></h2>
+                </div>
+                <div class="section-content">
+                    <div class="section-grid">
+                        <div class="form-container">
+                            <h3><i class="fas fa-industry"></i> Add / Update Machinery</h3>
+                            <form id="form-add-machinery" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <label>Machine Name *</label>
+                                    <input type="text" name="name" placeholder="e.g. IV Cannula Assembly Line" required />
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Slug</label>
+                                        <input type="text" name="slug" placeholder="iv-cannula-line" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Category *</label>
+                                        <select name="category" required>
+                                            <option value="Machinery &amp; Production Lines">Machinery &amp; Production Lines</option>
+                                            <option value="Spare Parts &amp; Maintenance">Spare Parts &amp; Maintenance</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Summary *</label>
+                                    <textarea name="summary" rows="3" placeholder="Machine overview..." required></textarea>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Price</label>
+                                        <input type="number" name="price" min="0" step="0.01" placeholder="0.00" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Currency</label>
+                                        <select name="currency">
+                                            <option value="EGP" selected>EGP (L.E)</option>
+                                            <option value="USD">USD ($)</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="specs-label">Technical Specifications</label>
+                                </div>
+                                <div class="specs-grid">
+                                    <input type="text" name="model" placeholder="Model" />
+                                    <input type="text" name="origin" placeholder="Origin" />
+                                    <input type="text" name="output" placeholder="Output Capacity" />
+                                    <input type="text" name="power" placeholder="Power Requirement" />
+                                    <input type="text" name="compliance" placeholder="Compliance" />
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Spare Parts (JSON Array)</label>
+                                    <textarea name="spareParts" rows="4" placeholder='[{"name":"Needle Guide","partNumber":"NG-100"}]'></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Machine Image</label>
+                                    <input type="file" name="image" accept="image/*" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Datasheet PDF</label>
+                                    <input type="file" name="datasheet" accept=".pdf" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Datasheet URL</label>
+                                    <input type="url" name="datasheetUrl" placeholder="https://..." />
+                                </div>
+
+                                <button type="submit" class="btn-deploy">
+                                    <i class="fas fa-save"></i> SAVE MACHINERY
+                                </button>
+                            </form>
+
+                            <hr style="margin: 24px 0; border: 0; border-top: 1px solid rgba(212, 175, 55, 0.2);" />
+
+                            <h3><i class="fas fa-paper-plane"></i> Send Report</h3>
+                            <form id="form-send-report">
+                                <div class="form-group">
+                                    <label>Recipient *</label>
+                                    <select name="recipientType" id="report-recipient-type" required>
+                                        <option value="SuperAdmin">SuperAdmin</option>
+                                        <option value="Client">Client</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Client Name</label>
+                                        <input type="text" name="clientName" placeholder="Client full name" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Client Email</label>
+                                        <input type="email" name="clientEmail" id="report-client-email" placeholder="client@company.com" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Report Subject *</label>
+                                    <input type="text" name="subject" placeholder="Weekly Engineering Update" required />
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Report Message *</label>
+                                    <textarea name="message" rows="4" placeholder="Write report details..." required></textarea>
+                                </div>
+
+                                <button type="submit" class="btn-deploy">
+                                    <i class="fas fa-paper-plane"></i> SEND REPORT
+                                </button>
+                            </form>
+                        </div>
+                        <div class="inventory-container">
+                            <h3><i class="fas fa-list"></i> Machinery Matrix</h3>
+                            <div class="inventory-list" id="machinery-list">
+                                <p class="loading">Loading machinery items...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- REGULATORY SECTION -->
+            <section class="admin-section" id="section-regulatory">
+                <div class="section-header">
+                    <h2>Regulatory <span>Affairs</span></h2>
+                </div>
+                <div class="section-content">
+                    <div class="section-grid">
+                        <div class="form-container">
+                            <h3><i class="fas fa-certificate"></i> Upload Certificate</h3>
+                            <form id="form-add-regulatory" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <label>Title *</label>
+                                    <input type="text" name="title" placeholder="Certificate title" required />
+                                </div>
+                                <div class="form-group">
+                                    <label>Type *</label>
+                                    <select name="type" required>
+                                        <option value="ISO">ISO</option>
+                                        <option value="CE">CE Mark</option>
+                                        <option value="FDA">FDA</option>
+                                    </select>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Issue Date *</label>
+                                        <input type="date" name="issueDate" required />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Expiry Date *</label>
+                                        <input type="date" name="expiryDate" required />
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label>Cost / Fees</label>
+                                        <input type="number" name="fee" min="0" step="0.01" placeholder="0.00" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Currency</label>
+                                        <select name="currency">
+                                            <option value="EGP" selected>EGP (L.E)</option>
+                                            <option value="USD">USD ($)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>PDF Document *</label>
+                                    <input type="file" name="documentFile" accept=".pdf" required />
+                                </div>
+                                <button type="submit" class="btn-deploy">
+                                    <i class="fas fa-upload"></i> UPLOAD
+                                </button>
+                            </form>
+                        </div>
+                        <div class="inventory-container">
+                            <h3><i class="fas fa-list"></i> Active Certificates</h3>
+                            <div class="inventory-list" id="regulatory-list">
+                                <p class="loading">Loading certificates...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- NEWSROOM SECTION -->
+            <section class="admin-section" id="section-newsroom">
+                <div class="section-header">
+                    <h2>GEMA <span>Broadcast</span></h2>
+                </div>
+                <div class="section-content">
+                    <div class="section-grid">
+                        <div class="form-container newsroom-form">
+                            <h3><i class="fas fa-bullhorn"></i> Add News Story</h3>
+                            <form id="form-add-news" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <label>News Title *</label>
+                                    <input type="text" name="title" placeholder="Enter headline" required />
+                                </div>
+                                <div class="form-group">
+                                    <label>Post Link *</label>
+                                    <input type="url" name="postLink" placeholder="https://..." required />
+                                </div>
+                                <div class="form-group">
+                                    <label>Cover Image *</label>
+                                    <input type="file" name="image" accept="image/*" required />
+                                </div>
+                                <button type="submit" class="btn-deploy">
+                                    <i class="fas fa-paper-plane"></i> PUBLISH NEWS
+                                </button>
+                            </form>
+                        </div>
+                        <div class="inventory-container newsroom-list">
+                            <h3><i class="fas fa-stream"></i> Current News Feed</h3>
+                            <div class="inventory-list" id="news-list">
+                                <p class="loading">Loading broadcast stories...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- STAFF SECTION -->
+           <section class="admin-section" id="section-staff">
+    <div class="section-header">
+        <h2>Staff & <span>Roles</span></h2>
+        <p class="section-tagline">Manage GEMA Authorized Personnel</p>
+    </div>
+
+    <div class="section-content">
+        <div class="admin-grid-layout admin-staff-grid">
+            
+            <div class="form-container gema-card admin-staff-form-card">
+                <h3><i class="fas fa-user-plus"></i> Authorize New Member</h3>
+                <form id="form-add-staff" class="admin-staff-form">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" name="name" placeholder="Full name" required />
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" name="email" placeholder="email@gema.com" required />
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Security Key (Password)</label>
+                        <input type="password" name="password" placeholder="••••••••" required />
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Operational Role</label>
+                        <select name="role" required>
+                            <option value="">Select Access Level</option>
+                            <option value="SuperAdmin">SuperAdmin (Full Access)</option>
+                            <option value="ProductAdmin">ProductAdmin (Inventory Only)</option>
+                            <option value="Regulatory">Regulatory (Documents Only)</option>
+                            <option value="Engineer">Engineer (Machinery + Spare Parts)</option>
+                            <option value="EngineeringOps">EngineeringOps (Primary: Machinery Lines)</option>
+                            <option value="NewsEditor">NewsEditor (Broadcast Only)</option>
+                            <option value="OperationsAdmin">OperationsAdmin (Operations + About)</option>
+                            <option value="Staff">Staff (View Only)</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="btn-deploy admin-staff-submit">
+                        <i class="fas fa-shield-alt"></i> GRANT ACCESS
+                    </button>
+                </form>
+            </div>
+
+            <div class="gema-card admin-staff-list-card">
+                <h3 class="admin-staff-list-title">
+                    <span><i class="fas fa-users-shield"></i> Personnel Matrix</span>
+                    <small class="admin-live-sync">LIVE DATA SYNC</small>
+                </h3>
+                
+                <div id="staff-list" class="staff-grid-container admin-staff-list">
+                    <div class="loading-state admin-loading-state">
+                        <i class="fas fa-spinner fa-spin fa-2x"></i>
+                        <p class="admin-loading-text">Scanning Authorized Personnel...</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+        </main>
+    </div>
+
+    <!-- ============================================================
+         EDIT MODAL
+         ============================================================ -->
+    <div class="modal-overlay" id="modal-edit">
+        <div class="modal-box">
+            <h3>Update Product Specs</h3>
+            <form id="form-edit-product">
+                <input type="hidden" id="edit-product-id" />
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" id="edit-name" required />
+                </div>
+                <div class="form-group">
+                    <label>Price</label>
+                    <input type="number" id="edit-price" step="0.01" required />
+                </div>
+                <div class="form-group">
+                    <label>Currency</label>
+                    <select id="edit-currency" required>
+                        <option value="USD">USD</option>
+                        <option value="EGP">EGP</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select id="edit-category" required>
+                        <option value="Manufacturing">Manufacturing</option>
+                        <option value="Trading">Trading</option>
+                        <option value="Engineering">Engineering</option>
+                        <option value="RawMaterial">Raw Materials / خامات</option>
+                        <option value="Component">Components / مكونات</option>
+                        <option value="MedicalCosmetics">Medical Cosmetics / تجميل طبي</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Specialty</label>
+                    <select id="edit-specialty" required>
+                        <option value="Cardiology">Cardiology</option>
+                        <option value="Dental">Dental</option>
+                        <option value="IV Fluids">IV Fluids</option>
+                        <option value="OR Solutions">OR Solutions</option>
+                        <option value="Consumables">Consumables</option>
+                        <option value="General">General</option>
+                        <option value="Manufacturing Components">Manufacturing Components / مكونات تصنيع</option>
+                        <option value="Imported Raw Materials">Imported Raw Materials / مواد خام مستوردة</option>
+                        <option value="Pharmacies">Pharmacies / صيدليات</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Sector</label>
+                    <select id="edit-sector" required>
+                        <option value="Equipment">Equipment / معدات</option>
+                        <option value="RawMaterial">Raw Material / مواد خام</option>
+                        <option value="Component">Component / مكون</option>
+                        <option value="Cosmetic">Cosmetic / تجميلي</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Origin</label>
+                    <select id="edit-product-origin" required>
+                        <option value="Internal">Internal / داخلي</option>
+                        <option value="Commercial">Commercial / تجاري</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Logistics</label>
+                    <select id="edit-logistics" required>
+                        <option value="Local">Local / محلي</option>
+                        <option value="Import">Import / استيراد</option>
+                        <option value="Export">Export / تصدير</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="edit-description" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Technical Specifications</label>
+                </div>
+                <div class="specs-grid">
+                    <input type="text" id="edit-material" placeholder="Material" />
+                    <input type="text" id="edit-origin" placeholder="Origin Country" />
+                    <input type="text" id="edit-compliance" placeholder="Compliance Standards" />
+                    <input type="text" id="edit-sterilization" placeholder="Sterilization Method" />
+                    <input type="text" id="edit-sizes" placeholder="Available Sizes" />
+                    <input type="text" id="edit-components" placeholder="Key Components" />
+                </div>
+                <div class="form-group">
+                    <label>Current Image</label>
+                    <img
+                        id="edit-image-preview"
+                        src="/assets/images/sectors/products.jpg"
+                        alt="Current product image"
+                        class="product-image"
+                        style="max-width: 140px; border-radius: 8px; display: block;"
+                    />
+                </div>
+                <div class="form-group">
+                    <label>Replace Product Image</label>
+                    <input type="file" id="edit-product-image" accept="image/*" />
+                </div>
+                <div class="form-group">
+                    <label>Datasheet URL</label>
+                    <input
+                        type="url"
+                        id="edit-datasheet-url"
+                        placeholder="https://drive.google.com/file/d/.../view"
+                    />
+                </div>
+                <div class="form-group">
+                    <label>Replace Datasheet PDF</label>
+                    <input type="file" id="edit-datasheet-file" accept=".pdf" />
+                </div>
+                <div class="modal-buttons">
+                    <button type="submit" class="btn-save">SAVE</button>
+                    <button type="button" class="btn-cancel" data-action="close-modal">CANCEL</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         EDIT PASSWORD MODAL
+         ============================================================ -->
+    <div class="modal-overlay" id="modal-edit-password">
+        <div class="modal-box">
+            <h3>Edit Staff Password</h3>
+            <form id="form-edit-password">
+                <input type="hidden" id="edit-password-staff-id" />
+                <div class="form-group">
+                    <label>Staff Name</label>
+                    <input type="text" id="edit-password-staff-name" readonly />
+                </div>
+                <div class="form-group">
+                    <label>New Password *</label>
+                    <input type="password" id="edit-password-new" placeholder="At least 8 chars with Aa1!" minlength="8" required />
+                </div>
+                <div class="form-group">
+                    <label>Confirm Password *</label>
+                    <input type="password" id="edit-password-confirm" placeholder="Confirm new password" minlength="8" required />
+                </div>
+                <div class="modal-buttons">
+                    <button type="submit" class="btn-save">UPDATE PASSWORD</button>
+                    <button type="button" class="btn-cancel" data-action="close-modal">CANCEL</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-edit-news" style="display: none;">
+        <div class="modal-box">
+            <h3><i class="fas fa-edit"></i> Edit Broadcast News</h3>
+            <form id="form-edit-news" enctype="multipart/form-data">
+                <input type="hidden" id="edit-news-id" />
+                <div class="form-group">
+                    <label>Title *</label>
+                    <input type="text" id="edit-news-title" required />
+                </div>
+                <div class="form-group">
+                    <label>Post Link *</label>
+                    <input type="url" id="edit-news-link" required />
+                </div>
+                <div class="form-group">
+                    <label>Replace Image (Optional)</label>
+                    <input type="file" id="edit-news-image" accept="image/*" />
+                </div>
+                <div class="modal-buttons">
+                    <button type="submit" class="btn-save">SAVE NEWS</button>
+                    <button type="button" class="btn-cancel" data-action="close-modal">CANCEL</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-activity-tracker" style="display: none;">
+        <div class="modal-box" style="max-width: 920px; width: 94vw;">
+            <h3><i class="fas fa-chart-line"></i> Advanced Audit Tracker</h3>
+            <div class="search-filter-bar" style="margin-bottom: 12px;">
+                <i class="fas fa-filter"></i>
+                <select id="activity-filter-actor" class="filter-select">
+                    <option value="">All Actors</option>
+                </select>
+                <select id="activity-filter-module" class="filter-select">
+                    <option value="">All Modules</option>
+                    <option value="Products">Products</option>
+                    <option value="Users">Users</option>
+                    <option value="Leads">Leads</option>
+                    <option value="Auth">Auth</option>
+                </select>
+                <input id="activity-filter-date" type="date" class="search-input" style="max-width: 220px;" />
+            </div>
+
+            <div class="inventory-list" id="activity-tracker-list" style="max-height: 440px; overflow: auto;">
+                <p class="loading">Choose filters to load activity.</p>
+            </div>
+
+            <div class="modal-buttons" style="margin-top: 14px;">
+                <button type="button" class="btn-cancel" data-action="close-modal">CLOSE</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         GLOBAL REPORT CENTER MODAL
+         ============================================================ -->
+    <div class="modal-overlay" id="modal-report-center" style="display: none;">
+        <div class="modal-box">
+            <h3><i class="fas fa-paper-plane"></i> Global Report Center</h3>
+            <form id="form-report-global" data-report-form="global">
+                <div class="form-group">
+                    <label>Recipient *</label>
+                    <select name="recipientType" required>
+                        <option value="SuperAdmin">SuperAdmin</option>
+                        <option value="Client">Client</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Client Name</label>
+                        <input type="text" name="clientName" placeholder="Client full name" />
+                    </div>
+                    <div class="form-group">
+                        <label>Client Email</label>
+                        <input type="email" name="clientEmail" placeholder="client@company.com" />
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Related Module *</label>
+                        <select name="relatedModule" id="report-global-module" required>
+                            <option value="Products">Products</option>
+                            <option value="Projects">Projects</option>
+                            <option value="Engineering Hub">Engineering Hub</option>
+                            <option value="Regulatory">Regulatory</option>
+                            <option value="Staff">Staff</option>
+                            <option value="Newsroom">Newsroom</option>
+                            <option value="Page Manager">Page Manager</option>
+                            <option value="Operations">Operations</option>
+                            <option value="About Manager">About Manager</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Specialty</label>
+                        <input type="text" name="specialty" list="report-specialty-options" placeholder="Cardiology / OR Solutions / Maintenance..." />
+                    </div>
+                </div>
+
+                <datalist id="report-specialty-options">
+                    <option value="General"></option>
+                    <option value="IV Fluids"></option>
+                    <option value="Cardiology"></option>
+                    <option value="OR Solutions"></option>
+                    <option value="Dental"></option>
+                    <option value="Consumables"></option>
+                    <option value="Machinery & Production Lines"></option>
+                    <option value="Spare Parts & Maintenance"></option>
+                    <option value="Trading Hub"></option>
+                    <option value="Turnkey"></option>
+                    <option value="Regulatory Compliance"></option>
+                    <option value="News & Media"></option>
+                </datalist>
+
+                <div class="form-group">
+                    <label>Report Subject *</label>
+                    <input type="text" name="subject" placeholder="Weekly Progress Update" required />
+                </div>
+
+                <div class="form-group">
+                    <label>Report Message *</label>
+                    <textarea name="message" rows="4" placeholder="Write report details..." required></textarea>
+                </div>
+
+                <div class="modal-buttons">
+                    <button type="submit" class="btn-save">SEND EMAIL REPORT</button>
+                    <button type="button" class="btn-cancel" data-action="close-modal">CANCEL</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts (NO header.js or footer.js) -->
+<script src="/js/api-config.js"></script>
+<script src="/js/all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/js/translations.js"></script>
+<script src="/js/admin-logic.js"></script>
+<script src="/js/admin-ai-widget.js"></script>
+</body>
+</html>
+

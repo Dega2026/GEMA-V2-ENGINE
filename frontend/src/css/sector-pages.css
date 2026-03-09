@@ -1,0 +1,133 @@
+.btn-inline-link {
+  margin-top: 10px;
+  display: inline-block;
+}
+
+.sectors-title-spacing {
+  margin-bottom: 50px;
+}
+
+.btn-inline-details {
+  margin-top: 15px;
+  display: inline-block;
+}
+
+.card-image.bg-trading-shanghai {
+  background-image: url('/assets/images/trading/shanghai-hub.jpg');
+}
+
+.card-image.bg-trading-supply-chain {
+  background-image: url('/assets/images/trading/supply-chain.jpg');
+}
+
+.card-image.bg-reg-sfda {
+  background-image: url('/assets/images/regulatory/sfda-registration.jpg');
+}
+
+.card-image.bg-reg-eda {
+  background-image: url('/assets/images/regulatory/eda-registration.jpg');
+}
+
+.card-image.bg-reg-iso {
+  background-image: url('/assets/images/regulatory/iso-13485.jpg');
+}
+
+.card-image.bg-reg-ce {
+  background-image: url('/assets/images/regulatory/ce-marking.jpg');
+}
+
+.card-image.bg-eng-or {
+  background-image: url('/assets/images/engineering/operating-rooms.jpg');
+}
+
+.card-image.bg-eng-maint {
+  background-image: url('/assets/images/engineering/biomedical-service.jpg');
+}
+
+.card-image.bg-tk-concept {
+  background-image: url('/assets/images/turnkey/factory-design.jpg');
+}
+
+.card-image.bg-tk-setup {
+  background-image: url('/assets/images/turnkey/machinery-setup.jpg');
+}
+
+.card-image.bg-tk-ops {
+  background-image: url('/assets/images/turnkey/operational-support.jpg');
+}
+
+.card-image.bg-home-manufacturing {
+  background-image: url('/assets/images/sectors/manufacturing.jpg');
+}
+
+.card-image.bg-home-products {
+  background-image: url('/assets/images/sectors/products.jpg');
+}
+
+.card-image.bg-home-trading {
+  background-image: url('/assets/images/sectors/trading.jpg');
+}
+
+.card-image.bg-home-engineering {
+  background-image: url('/assets/images/sectors/engineering.jpg');
+}
+
+.card-image.bg-home-regulatory {
+  background-image: url('/assets/images/sectors/regulatory.jpg');
+}
+
+.card-image.bg-home-turnkey {
+  background-image: url('/assets/images/sectors/turnkey.jpg');
+}
+
+.tech-specs-section {
+  margin-top: 34px;
+}
+
+.tech-spec-card {
+  border: 1px solid rgba(212, 175, 55, 0.28);
+  border-radius: 18px;
+  background: linear-gradient(160deg, rgba(9, 15, 26, 0.88), rgba(7, 10, 16, 0.78));
+  box-shadow: 0 20px 70px rgba(0, 0, 0, 0.45), inset 0 0 45px rgba(0, 229, 255, 0.08);
+  backdrop-filter: blur(14px);
+  padding: 24px;
+}
+
+.tech-spec-card h3 {
+  margin-bottom: 12px;
+  color: #f4f7ff;
+  font-size: 1.2rem;
+}
+
+.tech-spec-list {
+  list-style: none;
+  display: grid;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.tech-spec-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(102, 224, 255, 0.2);
+  background: rgba(22, 56, 77, 0.3);
+  color: rgba(240, 248, 255, 0.95);
+}
+
+.tech-spec-list i {
+  color: #00e5ff;
+}
+
+.tech-spec-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.tech-machine-datasheet.is-disabled {
+  opacity: 0.55;
+  pointer-events: none;
+}

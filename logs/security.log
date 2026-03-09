@@ -1,0 +1,142 @@
+{"ts":"2026-03-06T19:35:36.022Z","event":"auth.login_failed","ip":"::1","identity":"invalid-user","reason":"user_not_found"}
+{"ts":"2026-03-06T19:36:57.851Z","event":"auth.refresh_failed","ip":"::1","reason":"missing_refresh_token"}
+{"ts":"2026-03-06T19:38:44.432Z","event":"auth.login_success","ip":"::1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-06T19:38:56.482Z","event":"auth.login_failed","ip":"::1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","reason":"invalid_password"}
+{"ts":"2026-03-06T19:38:57.481Z","event":"auth.login_failed","ip":"::1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","reason":"invalid_password"}
+{"ts":"2026-03-06T19:38:57.689Z","event":"auth.login_failed","ip":"::1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","reason":"invalid_password"}
+{"ts":"2026-03-06T19:38:57.918Z","event":"auth.login_failed","ip":"::1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","reason":"invalid_password"}
+{"ts":"2026-03-06T19:39:03.088Z","event":"auth.ip_rate_limited","ip":"::1","identity":"admin@gema.com"}
+{"ts":"2026-03-06T19:39:04.740Z","event":"auth.ip_rate_limited","ip":"::1","identity":"admin@gema.com"}
+{"ts":"2026-03-06T19:39:05.351Z","event":"auth.ip_rate_limited","ip":"::1","identity":"admin@gema.com"}
+{"ts":"2026-03-06T19:39:46.350Z","event":"auth.ip_rate_limited","ip":"::1","identity":"admin@gema.com"}
+{"ts":"2026-03-06T19:39:46.966Z","event":"auth.ip_rate_limited","ip":"::1","identity":"admin@gema.com"}
+{"ts":"2026-03-06T19:39:47.170Z","event":"auth.ip_rate_limited","ip":"::1","identity":"admin@gema.com"}
+{"ts":"2026-03-06T19:39:47.352Z","event":"auth.ip_rate_limited","ip":"::1","identity":"admin@gema.com"}
+{"ts":"2026-03-06T19:40:00.233Z","event":"auth.ip_rate_limited","ip":"::1","identity":"admin@gema.com"}
+{"ts":"2026-03-06T19:40:01.379Z","event":"auth.ip_rate_limited","ip":"::1","identity":"admin@gema.com"}
+{"ts":"2026-03-06T19:40:03.379Z","event":"auth.ip_rate_limited","ip":"::1","identity":"admin@gema.com"}
+{"ts":"2026-03-06T19:40:10.427Z","event":"auth.ip_rate_limited","ip":"::1","identity":"admin@gema.com"}
+{"ts":"2026-03-06T19:40:10.913Z","event":"auth.ip_rate_limited","ip":"::1","identity":"admin@gema.com"}
+{"ts":"2026-03-06T19:41:30.664Z","event":"auth.ip_rate_limited","ip":"::1","identity":"admin@gema.com"}
+{"ts":"2026-03-06T19:41:31.294Z","event":"auth.ip_rate_limited","ip":"::1","identity":"admin@gema.com"}
+{"ts":"2026-03-06T19:41:31.510Z","event":"auth.ip_rate_limited","ip":"::1","identity":"admin@gema.com"}
+{"ts":"2026-03-06T19:42:18.122Z","event":"auth.ip_rate_limited","ip":"::1","identity":"admin@gema.com"}
+{"ts":"2026-03-06T19:42:19.857Z","event":"auth.ip_rate_limited","ip":"::1","identity":"admin@gema.com"}
+{"ts":"2026-03-06T19:42:20.438Z","event":"auth.ip_rate_limited","ip":"::1","identity":"admin@gema.com"}
+{"ts":"2026-03-06T19:42:20.699Z","event":"auth.ip_rate_limited","ip":"::1","identity":"admin@gema.com"}
+{"ts":"2026-03-06T19:47:18.461Z","event":"auth.login_failed","ip":"::1","identity":"invalid-user","reason":"user_not_found"}
+{"ts":"2026-03-06T19:51:54.263Z","event":"auth.login_success","ip":"::1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-06T19:53:04.568Z","event":"auth.login_success","ip":"::1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-06T20:40:43.659Z","event":"auth.login_success","ip":"::1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-06T20:41:15.846Z","event":"auth.login_success","ip":"::1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-06T20:44:13.104Z","event":"auth.login_success","ip":"::1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-06T20:45:17.547Z","event":"auth.login_success","ip":"::1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-06T20:45:26.436Z","event":"auth.login_failed","ip":"::1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","reason":"invalid_password"}
+{"ts":"2026-03-06T20:45:37.411Z","event":"auth.login_success","ip":"::1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-06T20:57:18.516Z","event":"auth.login_failed","ip":"::1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","reason":"invalid_password"}
+{"ts":"2026-03-06T20:57:25.377Z","event":"auth.login_success","ip":"::1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-06T20:59:18.376Z","event":"auth.ip_rate_limited","ip":"::1","identity":"invalid-user"}
+{"ts":"2026-03-06T21:08:00.027Z","event":"auth.login_success","ip":"::1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-06T21:21:52.147Z","event":"auth.login_success","ip":"::1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-06T21:30:06.557Z","event":"auth.login_success","ip":"::1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-06T21:33:30.460Z","event":"auth.login_success","ip":"::1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-06T21:47:48.671Z","event":"auth.login_success","ip":"::1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-06T21:48:42.014Z","event":"auth.login_failed","ip":"::1","identity":"mo@gema.com","userId":"69aa1d5cb609f6846be8cd42","reason":"invalid_password"}
+{"ts":"2026-03-06T21:48:48.393Z","event":"auth.login_success","ip":"::1","identity":"mo@gema.com","userId":"69aa1d5cb609f6846be8cd42","role":"Engineer"}
+{"ts":"2026-03-06T21:49:18.532Z","event":"auth.login_failed","ip":"::1","identity":"dede@gema.com","userId":"69a9cbfa18ce6cc0e78bedcb","reason":"invalid_password"}
+{"ts":"2026-03-06T21:49:28.405Z","event":"auth.login_failed","ip":"::1","identity":"dede@gema.com","userId":"69a9cbfa18ce6cc0e78bedcb","reason":"invalid_password"}
+{"ts":"2026-03-06T21:49:52.099Z","event":"auth.ip_rate_limited","ip":"::1","identity":"amr@gema.com"}
+{"ts":"2026-03-06T21:49:55.515Z","event":"auth.ip_rate_limited","ip":"::1","identity":"amr@gema.com"}
+{"ts":"2026-03-06T21:50:03.740Z","event":"auth.ip_rate_limited","ip":"::1","identity":"amr@gema.com"}
+{"ts":"2026-03-06T21:50:18.303Z","event":"auth.ip_rate_limited","ip":"::1","identity":"admin@gema.com"}
+{"ts":"2026-03-06T21:50:31.420Z","event":"auth.ip_rate_limited","ip":"::1","identity":"admin@gema.com"}
+{"ts":"2026-03-06T21:50:53.109Z","event":"auth.ip_rate_limited","ip":"::1","identity":"admin@gema.com"}
+{"ts":"2026-03-06T21:51:49.445Z","event":"auth.ip_rate_limited","ip":"::1","identity":"admin@gema.com"}
+{"ts":"2026-03-06T21:53:23.996Z","event":"auth.ip_rate_limited","ip":"::1","identity":"admin@gema.com"}
+{"ts":"2026-03-06T21:55:16.988Z","event":"auth.login_success","ip":"::1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-06T21:56:30.997Z","event":"auth.login_failed","ip":"::1","identity":"mo@gema.com","userId":"69aa1d5cb609f6846be8cd42","reason":"invalid_password"}
+{"ts":"2026-03-06T21:56:45.785Z","event":"auth.login_failed","ip":"::1","identity":"mo@gema.com","userId":"69aa1d5cb609f6846be8cd42","reason":"invalid_password"}
+{"ts":"2026-03-06T21:56:57.670Z","event":"auth.login_failed","ip":"::1","identity":"amor@gema.com","userId":"69aa1d31b609f6846be8cd3e","reason":"invalid_password"}
+{"ts":"2026-03-06T21:57:10.934Z","event":"auth.login_success","ip":"::1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-06T21:57:43.759Z","event":"auth.ip_rate_limited","ip":"::1","identity":"mo@gema.com"}
+{"ts":"2026-03-06T21:59:26.996Z","event":"auth.ip_rate_limited","ip":"::1","identity":"mo@gema.com"}
+{"ts":"2026-03-06T21:59:32.971Z","event":"auth.ip_rate_limited","ip":"::1","identity":"mo@gema.com"}
+{"ts":"2026-03-06T21:59:37.219Z","event":"auth.ip_rate_limited","ip":"::1","identity":"mo@gema.com"}
+{"ts":"2026-03-06T22:01:36.467Z","event":"auth.ip_rate_limited","ip":"::1","identity":"admin@gema.com"}
+{"ts":"2026-03-06T22:02:12.854Z","event":"auth.ip_rate_limited","ip":"::1","identity":"admin@gema.com"}
+{"ts":"2026-03-06T22:02:24.924Z","event":"auth.ip_rate_limited","ip":"::1","identity":"admin@gema.com"}
+{"ts":"2026-03-06T22:04:15.182Z","event":"auth.ip_rate_limited","ip":"::1","identity":"admin@gema.com"}
+{"ts":"2026-03-06T22:04:21.204Z","event":"auth.ip_rate_limited","ip":"::1","identity":"admin@gema.com"}
+{"ts":"2026-03-06T22:06:58.251Z","event":"auth.ip_rate_limited","ip":"::1","identity":"admin@gema.com"}
+{"ts":"2026-03-06T22:08:07.570Z","event":"auth.ip_rate_limited","ip":"::1","identity":"admin@gema.com"}
+{"ts":"2026-03-06T22:09:36.166Z","event":"auth.login_success","ip":"::1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-06T22:12:57.804Z","event":"auth.login_success","ip":"::1","identity":"mo@gema.com","userId":"69aa1d5cb609f6846be8cd42","role":"Engineer"}
+{"ts":"2026-03-07T00:39:33.932Z","event":"auth.login_success","ip":"192.168.1.6","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-07T18:14:35.989Z","event":"auth.login_success","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-07T18:22:26.493Z","event":"auth.login_success","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-07T18:27:06.260Z","event":"auth.login_success","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-07T18:44:05.558Z","event":"auth.login_success","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-07T18:53:05.796Z","event":"auth.login_success","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-07T18:55:38.492Z","event":"auth.login_success","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-07T19:05:36.304Z","event":"auth.login_success","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-07T19:14:58.068Z","event":"auth.login_success","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-07T19:19:23.657Z","event":"auth.login_success","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-07T19:21:05.511Z","event":"auth.login_success","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-07T19:28:33.015Z","event":"auth.login_success","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-07T19:35:16.685Z","event":"auth.login_success","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-07T19:39:19.772Z","event":"auth.login_success","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-07T19:40:00.290Z","event":"auth.login_success","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-07T19:40:27.856Z","event":"auth.login_success","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-07T19:45:12.453Z","event":"auth.login_success","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-07T19:50:26.990Z","event":"auth.login_success","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-07T19:54:49.357Z","event":"auth.login_success","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-07T19:59:24.929Z","event":"auth.login_success","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-07T20:02:50.681Z","event":"auth.login_success","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-07T20:04:45.743Z","event":"auth.login_success","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-07T20:05:12.157Z","event":"auth.login_success","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-07T20:05:31.672Z","event":"auth.login_success","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-07T20:13:15.949Z","event":"auth.login_success","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-07T20:15:52.084Z","event":"auth.login_success","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-07T20:32:10.416Z","event":"auth.login_success","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-07T20:36:18.483Z","event":"auth.login_success","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-07T20:39:24.883Z","event":"auth.login_success","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-07T21:13:28.323Z","event":"auth.login_success","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-07T21:14:23.049Z","event":"auth.login_success","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-07T21:53:24.426Z","event":"auth.login_failed","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","reason":"invalid_password"}
+{"ts":"2026-03-07T21:53:30.981Z","event":"auth.login_failed","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","reason":"invalid_password"}
+{"ts":"2026-03-07T21:53:40.036Z","event":"auth.login_failed","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","reason":"invalid_password"}
+{"ts":"2026-03-07T21:53:43.219Z","event":"auth.login_failed","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","reason":"invalid_password"}
+{"ts":"2026-03-07T21:53:56.970Z","event":"auth.email_blocked","ip":"127.0.0.1","identity":"admin@gema.com","attempts":5,"blockedUntil":"2026-03-07T22:08:56.969Z"}
+{"ts":"2026-03-07T21:53:56.970Z","event":"auth.login_failed","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","reason":"invalid_password"}
+{"ts":"2026-03-07T21:54:08.134Z","event":"auth.ip_rate_limited","ip":"127.0.0.1","identity":"admin@gema.com"}
+{"ts":"2026-03-07T22:02:19.666Z","event":"auth.ip_rate_limited","ip":"127.0.0.1","identity":"admin@gema.com"}
+{"ts":"2026-03-07T22:02:19.755Z","event":"auth.ip_rate_limited","ip":"127.0.0.1","identity":"admin@gema.com"}
+{"ts":"2026-03-07T22:04:42.314Z","event":"auth.login_failed","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","reason":"invalid_password"}
+{"ts":"2026-03-07T22:04:42.659Z","event":"auth.login_failed","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","reason":"invalid_password"}
+{"ts":"2026-03-07T22:04:49.046Z","event":"auth.login_failed","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","reason":"invalid_password"}
+{"ts":"2026-03-07T22:13:42.290Z","event":"auth.login_failed","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","reason":"invalid_password"}
+{"ts":"2026-03-07T22:13:42.613Z","event":"auth.login_failed","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","reason":"invalid_password"}
+{"ts":"2026-03-07T22:14:16.564Z","event":"auth.login_success","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-07T22:19:45.452Z","event":"auth.login_success","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-07T22:23:09.972Z","event":"auth.login_success","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-07T22:29:06.469Z","event":"auth.login_success","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-07T22:29:35.598Z","event":"auth.login_success","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-08T02:05:34.818Z","event":"auth.login_success","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin"}
+{"ts":"2026-03-08T03:37:41.421Z","event":"auth.login_failed","ip":"127.0.0.1","identity":"admin@gema.com","reason":"server_error","error":"isNgrokRequest is not a function"}
+{"ts":"2026-03-08T03:38:46.757Z","event":"auth.login_failed","ip":"127.0.0.1","identity":"admin@gema.com","reason":"server_error","error":"isNgrokRequest is not a function"}
+{"ts":"2026-03-08T03:39:54.870Z","event":"auth.login_failed","ip":"127.0.0.1","identity":"admin@gema.com","reason":"server_error","error":"isNgrokRequest is not a function"}
+{"ts":"2026-03-08T03:43:20.052Z","event":"auth.login_failed","ip":"127.0.0.1","identity":"admin@gema.com","reason":"server_error","error":"isNgrokRequest is not a function"}
+{"ts":"2026-03-08T03:43:38.076Z","event":"auth.login_failed","ip":"127.0.0.1","identity":"admin@gema.com","reason":"server_error","error":"isNgrokRequest is not a function"}
+{"ts":"2026-03-08T03:44:37.797Z","event":"auth.login_failed","ip":"127.0.0.1","identity":"admin@gema.com","reason":"server_error","error":"isNgrokRequest is not a function"}
+{"ts":"2026-03-08T03:45:52.044Z","event":"auth.login_success","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin","accessPath":"Direct Access","ipNote":"127.0.0.1"}
+{"ts":"2026-03-08T18:09:36.758Z","event":"auth.login_success","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin","accessPath":"Direct Access","ipNote":"127.0.0.1"}
+{"ts":"2026-03-08T18:11:08.367Z","event":"auth.login_success","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin","accessPath":"Direct Access","ipNote":"127.0.0.1"}
+{"ts":"2026-03-08T18:19:06.553Z","event":"auth.login_success","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin","accessPath":"Direct Access","ipNote":"127.0.0.1"}
+{"ts":"2026-03-08T18:36:58.237Z","event":"auth.login_success","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin","accessPath":"Direct Access","ipNote":"127.0.0.1"}
+{"ts":"2026-03-08T18:50:13.092Z","event":"auth.login_success","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin","accessPath":"Direct Access","ipNote":"127.0.0.1"}
+{"ts":"2026-03-08T19:08:14.305Z","event":"auth.login_success","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin","accessPath":"Direct Access","ipNote":"127.0.0.1"}
+{"ts":"2026-03-08T19:34:26.622Z","event":"auth.login_success","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin","accessPath":"Direct Access","ipNote":"127.0.0.1"}
+{"ts":"2026-03-08T19:39:58.069Z","event":"auth.login_success","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin","accessPath":"Direct Access","ipNote":"127.0.0.1"}
+{"ts":"2026-03-08T19:55:02.511Z","event":"auth.login_success","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin","accessPath":"Direct Access","ipNote":"127.0.0.1"}
+{"ts":"2026-03-08T20:15:31.816Z","event":"auth.login_success","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin","accessPath":"Direct Access","ipNote":"127.0.0.1"}
+{"ts":"2026-03-09T13:56:59.342Z","event":"auth.login_success","ip":"127.0.0.1","identity":"admin@gema.com","userId":"69a74d4dc37653d6e3f2d539","role":"SuperAdmin","accessPath":"Direct Access","ipNote":"127.0.0.1"}

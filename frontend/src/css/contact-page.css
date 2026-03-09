@@ -1,0 +1,11 @@
+#contact-form input,
+#contact-form textarea {
+  outline: none;
+  transition: 0.3s;
+}
+
+#contact-form input:focus,
+#contact-form textarea:focus {
+  border-color: var(--gold-color) !important;
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+}

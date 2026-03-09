@@ -1,0 +1,210 @@
+/* ==========================================================================
+   GEMA AI-STYLES - THE ARTIFICIAL INTELLIGENCE & VISUAL ENGINE
+   ========================================================================== */
+
+/* --- 2. تأثير الـ Glassmorphism المطور للكروت --- */
+.gema-card {
+    background: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+    border-radius: 20px;
+    padding: 25px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+}
+
+/* --- 3. تأثير الـ Scan Line (الخط اللامع) --- */
+.gema-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.15), transparent);
+    transition: 0.6s;
+    z-index: 3; 
+}
+
+.gema-card:hover::before {
+    left: 100%;
+}
+
+/* --- 4. توهج ذهبي وحركة الكارت (Hover) --- */
+.gema-card:hover {
+    transform: translateY(-12px);
+    border-color: #D4AF37 !important;
+    background: rgba(212, 175, 55, 0.05) !important;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 25px rgba(212, 175, 55, 0.2);
+}
+
+/* --- 5. تنسيق شبكة المنتجات --- */
+.grid-layout {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    padding: 40px 0;
+}
+
+/* --- 6. نصوص الكروت (الوضوح العالي) --- */
+.gema-card h3 {
+    color: #D4AF37 !important; 
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.45) !important;
+    position: relative;
+    z-index: 4;
+}
+
+.gema-card p {
+    color: rgba(255, 255, 255, 0.85) !important;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+    background: none !important;
+    backdrop-filter: none !important;
+    position: relative;
+    z-index: 4;
+}
+
+/* --- 7. الوسوم (Category Tags) --- */
+.category-tag {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #fff;
+    background: rgba(212, 175, 55, 0.3);
+    padding: 4px 12px;
+    border-radius: 50px;
+    margin-bottom: 15px;
+    display: inline-block;
+    border: 1px solid rgba(212, 175, 55, 0.5);
+    position: relative;
+    z-index: 4;
+}
+
+/* --- 8. طبقة حماية إضافية للنصوص فوق الصور --- */
+.card-content {
+    background: linear-gradient(to top, rgba(0, 11, 26, 0.9) 0%, transparent 100%);
+    margin: -25px; 
+    padding: 25px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+/* ================================================= */
+/* GEMA GLOBAL - SMART SEARCH SYSTEM          */
+/* ================================================= */
+
+.search-container {
+    position: relative;
+    margin: 0 20px;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 5px 15px;
+    transition: 0.3s;
+}
+
+.search-box:focus-within {
+    border-color: #00ffff;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.2);
+}
+
+#globalSearch {
+    background: none;
+    border: none;
+    color: white;
+    padding: 5px;
+    outline: none;
+    width: 150px;
+    font-size: 0.9rem;
+}
+
+/* قائمة النتائج المنسدلة */
+.search-results-dropdown {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    width: 320px;
+    background: rgba(10, 15, 25, 0.98); 
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    border-radius: 12px;
+    max-height: 450px;
+    overflow-y: auto;
+    display: none; 
+    z-index: 9999;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* العنصر (الرابط) - منع اللون الموف نهائياً */
+.result-item, 
+.result-item:visited, 
+.result-item:active, 
+.result-item:focus {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    text-decoration: none !important; 
+    outline: none;
+    transition: 0.2s ease-in-out;
+    color: white; 
+}
+
+.result-item:hover {
+    background: rgba(0, 255, 255, 0.1);
+}
+
+.result-item img {
+    width: 45px;
+    height: 45px;
+    border-radius: 6px;
+    margin-right: 12px;
+    object-fit: cover;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* تفاصيل النص داخل النتيجة */
+.result-info {
+    display: flex;
+    flex-direction: column;
+}
+
+/* إجبار العنوان يفضل فيروزي (Cyan) */
+.result-info h4 {
+    color: #00ffff !important; 
+    font-size: 0.9rem;
+    margin: 0 0 4px 0;
+    font-weight: 600;
+    text-decoration: none !important;
+}
+
+/* إجبار الوصف يفضل رمادي فاتح */
+.result-info p {
+    color: #ccc !important;
+    font-size: 0.75rem;
+    margin: 0;
+    text-decoration: none !important;
+    line-height: 1.2;
+}
+
+/* تنسيق شريط التمرير (Scrollbar) داخل القائمة */
+.search-results-dropdown::-webkit-scrollbar {
+    width: 5px;
+}
+.search-results-dropdown::-webkit-scrollbar-thumb {
+    background: rgba(0, 255, 255, 0.3);
+    border-radius: 10px;
+}
