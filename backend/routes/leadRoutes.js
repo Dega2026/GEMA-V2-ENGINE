@@ -2,6 +2,7 @@ const express = require('express');
 const Lead = require('../models/Lead');
 const { authenticateToken, requireRoles } = require('../middleware/auth');
 const { writeAuditLog } = require('../utils/auditLogger');
+const { normalizeCurrency } = require('../utils/normalize');
 
 const router = express.Router();
 const LEAD_MANAGER_ROLES = ['SuperAdmin', 'OperationsAdmin', 'Engineer', 'EngineeringOps', 'ProductAdmin', 'Regulatory', 'NewsEditor'];
@@ -34,7 +35,7 @@ router.post('/', authenticateToken, requireRoles(LEAD_MANAGER_ROLES), async (req
       notes: String(req.body.notes || '').trim(),
       assignedTo: String(req.body.assignedTo || '').trim(),
       valueEstimate: Number.parseFloat(req.body.valueEstimate) || 0,
-      currency: String(req.body.currency || 'EGP').toUpperCase() === 'USD' ? 'USD' : 'EGP'
+      currency: normalizeCurrency(req.body.currency)
     };
 
     if (!payload.fullName || !payload.email) {

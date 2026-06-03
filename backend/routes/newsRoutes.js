@@ -1,57 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
-const jwt = require('jsonwebtoken');
 const News = require('../models/News');
-const { requireEnv } = require('../config/env');
+const { authenticateToken, requireRoles } = require('../middleware/auth');
 const { deleteManagedFileByUrl } = require('../utils/fileCleanup');
 const { writeAuditLog } = require('../utils/auditLogger');
+const { createUpload } = require('../utils/uploadConfig');
 
-const JWT_SECRET = requireEnv('JWT_SECRET');
-
-const uploadStorage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        const uploadPath = path.join(__dirname, '../../frontend/public/assets/uploads');
-        fs.mkdirSync(uploadPath, { recursive: true });
-        cb(null, uploadPath);
-    },
-    filename: (req, file, cb) => {
-        const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
-        cb(null, `news-${uniqueSuffix}${path.extname(file.originalname)}`);
-    }
-});
-
-const upload = multer({
-    storage: uploadStorage,
-    limits: { fileSize: 8 * 1024 * 1024 }
-});
-
-function authenticateAdmin(req, res, next) {
-    try {
-        const authHeader = req.headers.authorization;
-
-        if (!authHeader || !authHeader.startsWith('Bearer ')) {
-            return res.status(401).json({ success: false, message: 'Unauthorized' });
-        }
-
-        const token = authHeader.slice(7);
-        const decoded = jwt.verify(token, JWT_SECRET);
-        req.user = decoded;
-        return next();
-    } catch (error) {
-        return res.status(401).json({ success: false, message: 'Invalid token' });
-    }
-}
-
-function requireNewsEditorRole(req, res, next) {
-    const role = req.user?.role;
-    if (role !== 'SuperAdmin' && role !== 'NewsEditor') {
-        return res.status(403).json({ success: false, message: 'Access denied for this role' });
-    }
-    return next();
-}
+const upload = createUpload({ prefix: 'news', maxFileSize: 8 * 1024 * 1024 });
+const NEWS_EDITOR_ROLES = ['SuperAdmin', 'NewsEditor'];
 
 router.get('/', async (req, res) => {
     try {
@@ -62,7 +18,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.post('/add', authenticateAdmin, requireNewsEditorRole, upload.single('image'), async (req, res) => {
+router.post('/add', authenticateToken, requireRoles(NEWS_EDITOR_ROLES), upload.single('image'), async (req, res) => {
     try {
         const { title, postLink } = req.body;
 
@@ -90,7 +46,7 @@ router.post('/add', authenticateAdmin, requireNewsEditorRole, upload.single('ima
     }
 });
 
-router.put('/:id', authenticateAdmin, requireNewsEditorRole, upload.single('image'), async (req, res) => {
+router.put('/:id', authenticateToken, requireRoles(NEWS_EDITOR_ROLES), upload.single('image'), async (req, res) => {
     try {
         const existing = await News.findById(req.params.id);
         if (!existing) {
@@ -136,7 +92,7 @@ router.put('/:id', authenticateAdmin, requireNewsEditorRole, upload.single('imag
     }
 });
 
-router.delete('/:id', authenticateAdmin, requireNewsEditorRole, async (req, res) => {
+router.delete('/:id', authenticateToken, requireRoles(NEWS_EDITOR_ROLES), async (req, res) => {
     try {
         const deleted = await News.findByIdAndDelete(req.params.id);
 

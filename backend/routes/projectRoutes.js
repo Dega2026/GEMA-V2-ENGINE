@@ -5,6 +5,7 @@ const Project = require('../models/Project');
 const mongoose = require('mongoose');
 const { authenticateToken, requireRoles } = require('../middleware/auth');
 const { deleteManagedFileByUrl } = require('../utils/fileCleanup');
+const { normalizePrice, normalizeCurrency } = require('../utils/normalize');
 
 // 1. مسار إضافة مشروع جديد (POST /add)
 router.post('/add', upload.fields([
@@ -20,8 +21,8 @@ router.post('/add', upload.fields([
             status,
             progress: parseInt(progress) || 0,
             description,
-            price: parseFloat(price) || 0,
-            currency: currency || 'EGP',
+            price: normalizePrice(price),
+            currency: normalizeCurrency(currency),
             projectImage: req.files['projectImage'] ? `/uploads/${req.files['projectImage'][0].filename}` : '/assets/images/default-project.jpg',
             datasheet: req.files['datasheet'] ? `/uploads/${req.files['datasheet'][0].filename}` : ''
         });

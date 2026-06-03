@@ -1,8 +1,5 @@
 const fs = require('fs');
-const path = require('path');
-
-const FRONTEND_UPLOADS_DIR = path.join(__dirname, '../../frontend/public/assets/uploads');
-const BACKEND_DATASHEETS_DIR = path.join(__dirname, '../uploads/datasheets');
+const { FRONTEND_UPLOADS_DIR, BACKEND_DATASHEETS_DIR } = require('./uploadConfig');
 
 function resolveManagedFilePath(fileUrl) {
   if (typeof fileUrl !== 'string') return '';
