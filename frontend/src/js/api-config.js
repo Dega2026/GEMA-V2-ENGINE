@@ -14,8 +14,6 @@
   const nativeFetch = window.fetch.bind(window);
   window.__GEMA_FETCH_API_PATCHED__ = true;
 
-  const WRITE_METHODS = new Set(['POST', 'PUT', 'PATCH', 'DELETE']);
-
   function getAuthToken() {
     return (
       sessionStorage.getItem('GEMA_token')
@@ -33,14 +31,12 @@
       const base = String(window.GEMA_API_BASE_URL || '').trim().replace(/\/+$/, '');
       const target = base ? `${base}${input}` : input;
 
-      if (WRITE_METHODS.has(method)) {
-        const headers = new Headers(requestInit.headers || {});
-        const token = getAuthToken();
-        if (token && !headers.has('Authorization')) {
-          headers.set('Authorization', `Bearer ${token}`);
-        }
-        requestInit.headers = headers;
+      const headers = new Headers(requestInit.headers || {});
+      const token = getAuthToken();
+      if (token && !headers.has('Authorization')) {
+        headers.set('Authorization', `Bearer ${token}`);
       }
+      requestInit.headers = headers;
 
       return nativeFetch(target, requestInit);
     }

@@ -22,7 +22,7 @@ function normalizeForHash(payload) {
 }
 
 function recomputeHash(log, prevHash) {
-  const signingKey = String(process.env.AUDIT_LOG_SIGNING_KEY || process.env.JWT_SECRET || 'dev-insecure-audit-key');
+  const signingKey = String(process.env.AUDIT_LOG_SIGNING_KEY || process.env.JWT_SECRET || '');
   const basePayload = {
     action: log.action,
     module: log.module,

@@ -29,9 +29,22 @@ const storage = multer.diskStorage({
   }
 });
 
+const ALLOWED_DATASHEET_MIMES = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+
 const upload = multer({
   storage,
-  limits: { fileSize: 20 * 1024 * 1024 }
+  limits: { fileSize: 20 * 1024 * 1024 },
+  fileFilter: (req, file, cb) => {
+    if (file.fieldname === 'image' && !ALLOWED_IMAGE_MIMES.includes(file.mimetype)) {
+      cb(new Error('Unsupported image format. Allowed: WEBP, JPG, PNG, GIF, AVIF.'));
+      return;
+    }
+    if (file.fieldname === 'datasheet' && !ALLOWED_DATASHEET_MIMES.includes(file.mimetype)) {
+      cb(new Error('Unsupported datasheet format. Allowed: PDF, DOC, DOCX.'));
+      return;
+    }
+    cb(null, true);
+  }
 });
 
 function normalizeSpareParts(raw) {

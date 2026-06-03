@@ -39,7 +39,7 @@ function normalizeForHash(payload) {
 }
 
 function signAuditLog(payload, prevHash) {
-  const signingKey = String(process.env.AUDIT_LOG_SIGNING_KEY || process.env.JWT_SECRET || 'dev-insecure-audit-key');
+  const signingKey = String(process.env.AUDIT_LOG_SIGNING_KEY || process.env.JWT_SECRET || '');
   const base = `${prevHash}|${normalizeForHash(payload)}`;
   return crypto.createHmac('sha256', signingKey).update(base).digest('hex');
 }
