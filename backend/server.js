@@ -75,7 +75,18 @@ app.use("/datasheets", express.static(backendDatasheetsDir));
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("✅ GEMA Database Connected... Matrix Ready"))
-  .catch((err) => console.error("❌ Connection Error:", err));
+  .catch((err) => {
+    console.error("❌ Connection Error:", err);
+    process.exit(1);
+  });
+
+mongoose.connection.on("error", (err) => {
+  console.error("❌ Mongoose connection error:", err.message);
+});
+
+mongoose.connection.on("disconnected", () => {
+  console.warn("⚠️ Mongoose disconnected from database");
+});
 
 // ==========================================
 // --- الـ API (تجميع كل المسارات في مكان واحد) ---
@@ -142,6 +153,26 @@ app.use((req, res) => {
   }
 
   res.status(404).json({ success: false, message: "Not Found" });
+});
+
+// Global error handler — catches unhandled errors from route handlers.
+app.use((err, req, res, _next) => {
+  const status = typeof err.status === "number" ? err.status : 500;
+  const message = status === 500 ? "Internal server error" : (err.message || "Unexpected error");
+  console.error(`[ERROR] ${req.method} ${req.originalUrl} — ${err.message}`, err.stack || "");
+  if (!res.headersSent) {
+    res.status(status).json({ success: false, message });
+  }
+});
+
+// --- Process-level error handlers ---
+process.on("unhandledRejection", (reason) => {
+  console.error("Unhandled Promise Rejection:", reason);
+});
+
+process.on("uncaughtException", (err) => {
+  console.error("Uncaught Exception:", err);
+  process.exit(1);
 });
 
 // --- تشغيل السيرفر ---

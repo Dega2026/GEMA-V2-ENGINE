@@ -12,6 +12,7 @@ router.get('/', async (req, res) => {
     const items = await EngineeringHub.find({ isActive: true }).sort({ createdAt: -1 });
     return res.json({ success: true, data: items });
   } catch (error) {
+    console.error('Engineering hub list error:', error.message);
     return res.status(500).json({ success: false, message: 'Failed to fetch engineering hub items' });
   }
 });
@@ -25,6 +26,7 @@ router.get('/:id', async (req, res) => {
 
     return res.json({ success: true, data: item });
   } catch (error) {
+    console.error('Engineering hub fetch error:', error.message);
     return res.status(500).json({ success: false, message: 'Failed to fetch engineering hub item' });
   }
 });
@@ -66,6 +68,7 @@ router.post(
       const created = await EngineeringHub.create(payload);
       return res.status(201).json({ success: true, message: 'Engineering hub item created', data: created });
     } catch (error) {
+      console.error('Engineering hub create error:', error.message);
       return res.status(500).json({ success: false, message: 'Failed to create engineering hub item' });
     }
   }
@@ -121,6 +124,7 @@ router.put(
 
       return res.json({ success: true, message: 'Engineering hub item updated', data: updated });
     } catch (error) {
+      console.error('Engineering hub update error:', error.message);
       return res.status(500).json({ success: false, message: 'Failed to update engineering hub item' });
     }
   }
@@ -138,6 +142,7 @@ router.delete('/:id', authenticateToken, requireRoles(MANAGER_ROLES), async (req
 
     return res.json({ success: true, message: 'Engineering hub item deleted' });
   } catch (error) {
+    console.error('Engineering hub delete error:', error.message);
     return res.status(500).json({ success: false, message: 'Failed to delete engineering hub item' });
   }
 });

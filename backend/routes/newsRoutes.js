@@ -58,6 +58,7 @@ router.get('/', async (req, res) => {
         const news = await News.find().sort({ createdAt: -1 });
         return res.json(news);
     } catch (error) {
+        console.error('News list error:', error.message);
         return res.status(500).json({ success: false, message: 'Failed to fetch news' });
     }
 });
@@ -86,6 +87,7 @@ router.post('/add', authenticateAdmin, requireNewsEditorRole, upload.single('ima
         });
         return res.status(201).json({ success: true, message: 'News created successfully', data: newsItem });
     } catch (error) {
+        console.error('News create error:', error.message);
         return res.status(500).json({ success: false, message: 'Failed to create news item' });
     }
 });
@@ -132,6 +134,7 @@ router.put('/:id', authenticateAdmin, requireNewsEditorRole, upload.single('imag
 
         return res.json({ success: true, message: 'News updated successfully', data: updated });
     } catch (error) {
+        console.error('News update error:', error.message);
         return res.status(500).json({ success: false, message: 'Failed to update news item' });
     }
 });
@@ -156,6 +159,7 @@ router.delete('/:id', authenticateAdmin, requireNewsEditorRole, async (req, res)
 
         return res.json({ success: true, message: 'News deleted successfully' });
     } catch (error) {
+        console.error('News delete error:', error.message);
         return res.status(500).json({ success: false, message: 'Failed to delete news item' });
     }
 });

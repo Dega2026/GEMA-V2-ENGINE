@@ -43,6 +43,7 @@ router.get('/summary', authenticateToken, requireRoles(ANALYTICS_ROLES), async (
       }
     });
   } catch (error) {
+    console.error('Analytics summary error:', error.message);
     return res.status(500).json({ success: false, message: 'Failed to load analytics summary.' });
   }
 });

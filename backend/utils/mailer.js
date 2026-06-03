@@ -56,13 +56,18 @@ async function sendRealEmail({ to, subject, text, html }) {
   }
 
   const transporter = nodemailer.createTransport(transportConfig);
-  return transporter.sendMail({
-    from: getMailerFrom(),
-    to,
-    subject,
-    text,
-    html
-  });
+  try {
+    return await transporter.sendMail({
+      from: getMailerFrom(),
+      to,
+      subject,
+      text,
+      html
+    });
+  } catch (err) {
+    console.error('SMTP sendMail failed:', err.message);
+    throw err;
+  }
 }
 
 module.exports = {

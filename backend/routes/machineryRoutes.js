@@ -80,6 +80,7 @@ router.get('/', async (req, res) => {
     });
     return res.json({ success: true, data: normalized });
   } catch (error) {
+    console.error('Machinery list error:', error.message);
     return res.status(500).json({ success: false, message: 'Failed to fetch machinery list' });
   }
 });
@@ -93,6 +94,7 @@ router.get('/:id', async (req, res) => {
 
     return res.json({ success: true, data: item });
   } catch (error) {
+    console.error('Machinery fetch error:', error.message);
     return res.status(500).json({ success: false, message: 'Failed to fetch machinery item' });
   }
 });
@@ -247,6 +249,7 @@ router.delete('/:id', authenticateToken, requireRoles(['SuperAdmin', 'Engineer',
 
     return res.json({ success: true, message: 'Machinery item deleted' });
   } catch (error) {
+    console.error('Machinery delete error:', error.message);
     return res.status(500).json({ success: false, message: 'Failed to delete machinery item' });
   }
 });

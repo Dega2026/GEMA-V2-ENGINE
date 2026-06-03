@@ -220,6 +220,7 @@ router.get('/', authenticateToken, requireRoles(['SuperAdmin', 'OperationsAdmin'
     });
     return res.json({ success: true, data: reports });
   } catch (error) {
+    console.error('Report list error:', error.message);
     return res.status(500).json({ success: false, message: 'Failed to fetch reports.' });
   }
 });
@@ -249,7 +250,7 @@ router.get('/:id/pdf', authenticateToken, requireRoles(['SuperAdmin', 'Operation
       targetType: 'Report',
       targetId: String(report._id),
       details: { subject: report.subject || '' }
-    });
+    }).catch((auditErr) => console.warn('Audit log failed for PDF export:', auditErr.message));
 
     doc.fontSize(20).text('GEMA Report', { underline: true });
     doc.moveDown(1);
@@ -280,7 +281,10 @@ router.get('/:id/pdf', authenticateToken, requireRoles(['SuperAdmin', 'Operation
 
     doc.end();
   } catch (error) {
-    return res.status(500).json({ success: false, message: 'Failed to generate report PDF.' });
+    console.error('Report PDF generation error:', error.message);
+    if (!res.headersSent) {
+      return res.status(500).json({ success: false, message: 'Failed to generate report PDF.' });
+    }
   }
 });
 

@@ -116,6 +116,7 @@ router.get('/', authenticateToken, requireRoles(AUDIT_ROLES), async (req, res) =
       },
     });
   } catch (error) {
+    console.error('Audit log fetch error:', error.message);
     return res.status(500).json({ success: false, message: 'Failed to fetch audit logs.' });
   }
 });
@@ -168,6 +169,7 @@ router.get('/export.csv', authenticateToken, requireRoles(AUDIT_ROLES), async (r
     res.setHeader('Content-Disposition', 'attachment; filename="gema-audit-log.csv"');
     return res.send(csv);
   } catch (error) {
+    console.error('Audit CSV export error:', error.message);
     return res.status(500).json({ success: false, message: 'Failed to export audit logs.' });
   }
 });
@@ -205,6 +207,7 @@ router.get('/verify-chain', authenticateToken, requireRoles(['SuperAdmin']), asy
       broken,
     });
   } catch (error) {
+    console.error('Audit chain verify error:', error.message);
     return res.status(500).json({ success: false, message: 'Failed to verify audit chain.' });
   }
 });
