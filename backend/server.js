@@ -59,8 +59,8 @@ app.use(
 );
 app.use(attachRequestId);
 app.use(cors(buildCorsOptions()));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: '1mb' }));
+app.use(express.urlencoded({ extended: true, limit: '1mb' }));
 app.use(wafGuard);
 
 // --- Static frontend assets ---
@@ -80,7 +80,7 @@ mongoose
 // ==========================================
 // --- الـ API (تجميع كل المسارات في مكان واحد) ---
 // ==========================================
-app.use("/api/users", userRoutes);
+app.use("/api/users", adminApiLimiter, userRoutes);
 app.use("/api/auth", authApiLimiter, authRoutes);
 app.use("/api/products", globalApiLimiter, productRoutes);
 app.use("/api/projects", globalApiLimiter, projectRoutes);
@@ -98,7 +98,7 @@ app.use("/api/portal", adminApiLimiter, portalRoutes);
 app.use("/api/pages", adminApiLimiter, pageRoutes);
 app.use("/api/page-content", adminApiLimiter, pageRoutes);
 app.use("/api/pharmacies", globalApiLimiter, pharmacyRoutes);
-app.use("/api/ai", aiRoutes);
+app.use("/api/ai", globalApiLimiter, aiRoutes);
 
 // --- Frontend page routes ---
 const pageRouteMap = {

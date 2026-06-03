@@ -113,7 +113,7 @@ router.put('/update-role/:id', authenticateToken, requireRoles(['SuperAdmin']), 
         const updatedUser = await User.findByIdAndUpdate(req.params.id, { role }, { new: true });
         if (updatedUser) res.json({ success: true, message: "Role Updated" });
         else res.status(404).json({ success: false, message: "User not found" });
-    } catch (err) { res.status(500).json({ success: false, error: err.message }); }
+    } catch (err) { res.status(500).json({ success: false, message: 'Failed to update role.' }); }
 });
 
 router.put('/freeze/:id', authenticateToken, requireRoles(['SuperAdmin']), async (req, res) => {

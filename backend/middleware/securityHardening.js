@@ -57,11 +57,22 @@ function isNgrokRequest(req) {
 }
 
 function buildCorsOptions() {
+  const raw = String(process.env.CORS_ALLOWED_ORIGINS || '').trim();
+  const allowedOrigins = raw
+    ? parseCsv(raw).map((o) => o.replace(/\/+$/, ''))
+    : [];
+
   return {
-    origin: true,
+    origin: allowedOrigins.length
+      ? (reqOrigin, cb) => {
+          if (!reqOrigin || allowedOrigins.includes(reqOrigin)) return cb(null, true);
+          if (isSecurityBypassed()) return cb(null, true);
+          return cb(new Error('CORS: origin not allowed'));
+        }
+      : isSecurityBypassed(),
     methods: ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Authorization', 'Content-Type', 'X-Request-Id'],
-    credentials: false,
+    credentials: true,
     maxAge: 600,
   };
 }

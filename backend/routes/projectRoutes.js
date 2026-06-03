@@ -68,7 +68,7 @@ router.put('/:id', authenticateToken, requireRoles(['SuperAdmin', 'Engineer', 'E
         }
     } catch (err) {
         console.error("❌ Update Error:", err);
-        res.status(500).json({ success: false, error: err.message });
+        res.status(500).json({ success: false, message: 'Error updating project.' });
     }
 });
 
@@ -87,7 +87,7 @@ router.get('/:id', async (req, res) => {
             res.status(404).json({ message: "Project missing from database" });
         }
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ success: false, message: 'Error fetching project.' });
     }
 });
 

@@ -23,9 +23,18 @@ const uploadStorage = multer.diskStorage({
     }
 });
 
+const ALLOWED_IMAGE_MIMES = ['image/webp', 'image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/avif'];
+
 const upload = multer({
     storage: uploadStorage,
-    limits: { fileSize: 8 * 1024 * 1024 }
+    limits: { fileSize: 8 * 1024 * 1024 },
+    fileFilter: (req, file, cb) => {
+        if (!ALLOWED_IMAGE_MIMES.includes(file.mimetype)) {
+            cb(new Error('Unsupported image format. Allowed: WEBP, JPG, PNG, GIF, AVIF.'));
+            return;
+        }
+        cb(null, true);
+    }
 });
 
 function authenticateAdmin(req, res, next) {

@@ -11,6 +11,7 @@ pnpm-debug.log*
 backend/backups/
 backend/uploads/datasheets/
 frontend/public/assets/uploads/
+logs/
 
 .DS_Store
 Thumbs.db
