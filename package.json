@@ -15,6 +15,8 @@
     "ai:report:once": "node backend/scripts/dailyReport.js --once",
     "ai:report:daemon": "node backend/scripts/dailyReport.js",
     "deploy:check": "node setup-env.js",
+    "test": "jest --coverage",
+    "test:ci": "jest --coverage --ci",
     "security:audit": "npm audit --omit=dev",
     "security:audit:full": "npm audit",
     "security:audit:fix": "npm audit fix"
@@ -32,5 +34,8 @@
     "nodemailer": "^8.0.1",
     "pdfkit": "^0.17.2",
     "sharp": "^0.34.5"
+  },
+  "devDependencies": {
+    "jest": "^30.4.2"
   }
 }
