@@ -1,38 +1,14 @@
 const express = require('express');
 const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
 const Machinery = require('../models/Machinery');
 const { authenticateToken, requireRoles } = require('../middleware/auth');
 const { deleteManagedFileByUrl, replaceManagedFile } = require('../utils/fileCleanup');
-
-const ALLOWED_IMAGE_MIMES = ['image/webp', 'image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/avif'];
+const { ALLOWED_IMAGE_MIMES, createUpload } = require('../utils/uploadConfig');
+const { normalizeCurrency } = require('../utils/normalize');
 
 const router = express.Router();
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    if (file.fieldname === 'datasheet') {
-      const datasheetPath = path.join(__dirname, '../uploads/datasheets/');
-      fs.mkdirSync(datasheetPath, { recursive: true });
-      cb(null, datasheetPath);
-      return;
-    }
-
-    const imagePath = path.join(__dirname, '../../frontend/public/assets/uploads/');
-    fs.mkdirSync(imagePath, { recursive: true });
-    cb(null, imagePath);
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
-    cb(null, `${file.fieldname}-${uniqueSuffix}${path.extname(file.originalname)}`);
-  }
-});
-
-const upload = multer({
-  storage,
-  limits: { fileSize: 20 * 1024 * 1024 }
-});
+const upload = createUpload({ prefix: 'machinery', maxFileSize: 20 * 1024 * 1024, supportDatasheets: true });
 
 function normalizeSpareParts(raw) {
   if (!raw) return [];
@@ -75,7 +51,7 @@ router.get('/', async (req, res) => {
       return {
         ...doc,
         price: Number.isFinite(Number(doc.price)) ? Number(doc.price) : 0,
-        currency: ['USD', 'EGP'].includes(String(doc.currency || '').toUpperCase()) ? String(doc.currency).toUpperCase() : 'EGP'
+        currency: normalizeCurrency(doc.currency)
       };
     });
     return res.json({ success: true, data: normalized });
@@ -124,7 +100,7 @@ router.post(
         category: normalizeCategory(req.body.category, `${req.body.name || ''} ${req.body.slug || ''}`),
         summary: String(req.body.summary || '').trim(),
         price: parseFloat(req.body.price) || 0,
-        currency: req.body.currency === 'USD' ? 'USD' : 'EGP',
+        currency: normalizeCurrency(req.body.currency),
         image: imageFile ? `/uploads/${imageFile.filename}` : req.body.image || undefined,
         datasheet: datasheetFile
           ? `/datasheets/${datasheetFile.filename}`
@@ -191,7 +167,7 @@ router.put(
         category: normalizeCategory(req.body.category, `${req.body.name || existing.name} ${req.body.slug || existing.slug}`),
         summary: typeof req.body.summary === 'string' ? req.body.summary.trim() : existing.summary,
         price: parseFloat(req.body.price) || 0,
-        currency: req.body.currency === 'USD' ? 'USD' : 'EGP',
+        currency: normalizeCurrency(req.body.currency),
         technicalSpecs: {
           model: req.body.model || '',
           origin: req.body.origin || '',

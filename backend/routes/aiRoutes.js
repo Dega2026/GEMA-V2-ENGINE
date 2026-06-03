@@ -4,6 +4,7 @@ const { authenticateToken, requireRoles } = require('../middleware/auth');
 const { adminApiLimiter, shouldSkipSecurity } = require('../middleware/securityHardening');
 const { appendSecurityLog, getClientIp } = require('../utils/securityLogger');
 const { generateAiText } = require('../utils/aiClient');
+const { SUPPORTED_LANGUAGES } = require('../utils/normalize');
 const Lead = require('../models/Lead');
 const Product = require('../models/Product');
 
@@ -45,7 +46,7 @@ const publicChatLimiter = rateLimit({
 
 function normalizeLang(raw) {
   const lang = String(raw || 'en').trim().toLowerCase();
-  return ['ar', 'en', 'de', 'zh', 'tr'].includes(lang) ? lang : 'en';
+  return SUPPORTED_LANGUAGES.includes(lang) ? lang : 'en';
 }
 
 function isBusinessIntent(message) {

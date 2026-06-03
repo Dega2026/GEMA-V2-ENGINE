@@ -1,38 +1,13 @@
 const express = require('express');
-const jwt = require('jsonwebtoken');
-const multer = require('multer');
-const path = require('path');
-const fs = require('fs');
 const PageContent = require('../models/PageContent');
-const { requireEnv } = require('../config/env');
+const { authenticateToken, requireRoles } = require('../middleware/auth');
+const { createUpload } = require('../utils/uploadConfig');
+const { SUPPORTED_LANGUAGES } = require('../utils/normalize');
 
 const router = express.Router();
-const JWT_SECRET = requireEnv('JWT_SECRET');
-const UPLOAD_IMAGE_MIMES = ['image/webp', 'image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/avif', 'image/svg+xml'];
+const pageImageUpload = createUpload({ prefix: 'page', maxFileSize: 10 * 1024 * 1024 });
 
-const pageImageUpload = multer({
-  storage: multer.diskStorage({
-    destination: (req, file, cb) => {
-      const uploadPath = path.join(__dirname, '../../frontend/public/assets/uploads');
-      fs.mkdirSync(uploadPath, { recursive: true });
-      cb(null, uploadPath);
-    },
-    filename: (req, file, cb) => {
-      const safeExt = path.extname(file.originalname || '').toLowerCase() || '.png';
-      cb(null, `page-${Date.now()}-${Math.round(Math.random() * 1e9)}${safeExt}`);
-    }
-  }),
-  limits: { fileSize: 10 * 1024 * 1024 },
-  fileFilter: (req, file, cb) => {
-    if (!UPLOAD_IMAGE_MIMES.includes(file.mimetype)) {
-      cb(new Error('Unsupported image format. Allowed: WEBP, JPG, PNG, GIF, AVIF, SVG.'));
-      return;
-    }
-    cb(null, true);
-  }
-});
-
-const LANGS = ['ar', 'en', 'de', 'zh', 'tr'];
+const LANGS = SUPPORTED_LANGUAGES;
 const KNOWN_SLUGS = ['home', 'hub', 'about', 'logistics', 'direct-sourcing', 'contact', 'news', 'products', 'manufacturing', 'trading', 'engineering', 'regulatory', 'turnkey', 'quote', 'service-details', 'header', 'footer'];
 const SLUG_IMAGE_MAP = {
   'direct-sourcing': {
@@ -225,35 +200,9 @@ async function getOrCreateBySlug(slug) {
   return page;
 }
 
-function authenticateAdmin(req, res, next) {
-  try {
-    const authHeader = req.headers.authorization;
+const PAGE_ADMIN_ROLES = ['SuperAdmin', 'OperationsAdmin'];
 
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return res.status(401).json({ success: false, message: 'Unauthorized' });
-    }
-
-    const token = authHeader.slice(7);
-    const decoded = jwt.verify(token, JWT_SECRET);
-    req.user = decoded;
-
-    return next();
-  } catch (error) {
-    return res.status(401).json({ success: false, message: 'Invalid token' });
-  }
-}
-
-function requireOperationsRole(req, res, next) {
-  const role = req.user?.role;
-
-  if (role !== 'SuperAdmin' && role !== 'OperationsAdmin') {
-    return res.status(403).json({ success: false, message: 'Access denied for this role' });
-  }
-
-  return next();
-}
-
-router.post('/admin/upload-image', authenticateAdmin, requireOperationsRole, (req, res) => {
+router.post('/admin/upload-image', authenticateToken, requireRoles(PAGE_ADMIN_ROLES), (req, res) => {
   const handler = pageImageUpload.single('image');
 
   handler(req, res, (error) => {
@@ -302,7 +251,7 @@ router.get('/:slug', async (req, res) => {
   }
 });
 
-router.post('/update', authenticateAdmin, requireOperationsRole, async (req, res) => {
+router.post('/update', authenticateToken, requireRoles(PAGE_ADMIN_ROLES), async (req, res) => {
   try {
     const slug = toCanonicalSlug(req.body.slug);
     if (!isValidSlug(slug)) {
@@ -328,7 +277,7 @@ router.post('/update', authenticateAdmin, requireOperationsRole, async (req, res
   }
 });
 
-router.get('/admin/:slug', authenticateAdmin, requireOperationsRole, async (req, res) => {
+router.get('/admin/:slug', authenticateToken, requireRoles(PAGE_ADMIN_ROLES), async (req, res) => {
   try {
     const slug = toCanonicalSlug(req.params.slug);
 
@@ -343,7 +292,7 @@ router.get('/admin/:slug', authenticateAdmin, requireOperationsRole, async (req,
   }
 });
 
-router.put('/admin/:slug', authenticateAdmin, requireOperationsRole, async (req, res) => {
+router.put('/admin/:slug', authenticateToken, requireRoles(PAGE_ADMIN_ROLES), async (req, res) => {
   try {
     const slug = toCanonicalSlug(req.params.slug);
 

@@ -1,15 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
 const sharp = require('sharp');
 const Product = require('../models/Product');
 const { authenticateToken, requireRoles } = require('../middleware/auth');
 const { deleteManagedFileByUrl, replaceManagedFile } = require('../utils/fileCleanup');
+const { ALLOWED_IMAGE_MIMES, FRONTEND_UPLOADS_DIR, createUpload } = require('../utils/uploadConfig');
+const { normalizeEnum, normalizeText, normalizePrice, normalizeCurrency, ALLOWED_CURRENCIES } = require('../utils/normalize');
 
-const ALLOWED_IMAGE_MIMES = ['image/webp', 'image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/avif'];
-const FRONTEND_UPLOADS_DIR = path.join(__dirname, '../../frontend/public/assets/uploads/');
 const PRODUCT_IMAGE_PREFIX = '/uploads/';
 const DEFAULT_PRODUCT_IMAGE = '/assets/images/sectors/products.jpg';
 const ALLOWED_PRODUCT_CATEGORIES = ['Manufacturing', 'Trading', 'Engineering', 'RawMaterial', 'Component', 'MedicalCosmetics'];
@@ -17,7 +16,6 @@ const ALLOWED_PRODUCT_SPECIALTIES = ['IV Fluids', 'Cardiology', 'OR Solutions', 
 const ALLOWED_PRODUCT_SECTORS = ['Equipment', 'RawMaterial', 'Component', 'Cosmetic'];
 const ALLOWED_PRODUCT_ORIGINS = ['Internal', 'Commercial'];
 const ALLOWED_PRODUCT_LOGISTICS = ['Import', 'Export', 'Local'];
-const ALLOWED_CURRENCIES = ['USD', 'EGP'];
 
 function normalizeProductForResponse(productDoc) {
     if (!productDoc) return null;
@@ -97,49 +95,10 @@ async function convertUploadedImageToWebp(uploadedFile) {
     }
 }
 
-function normalizeEnum(value, allowedValues, fallback) {
-    const raw = String(value || '').trim();
-    if (!raw) return fallback;
-    return allowedValues.includes(raw) ? raw : fallback;
-}
-
-function normalizeText(value, fallback = '') {
-    const text = String(value || '').trim();
-    return text || fallback;
-}
-
-function normalizePrice(value) {
-    const amount = Number.parseFloat(value);
-    if (!Number.isFinite(amount) || amount < 0) return 0;
-    return amount;
-}
-
 // ==========================================================================
 // 1. إعداد المخزن (توحيد المسار لقلب الفرونت إند)
 // ==========================================================================
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        if (file.fieldname === 'datasheet') {
-            const datasheetPath = path.join(__dirname, '../uploads/datasheets/');
-            fs.mkdirSync(datasheetPath, { recursive: true });
-            cb(null, datasheetPath);
-            return;
-        }
-        // الخروج من فولدر routes ثم backend للوصول لـ frontend
-        const imagePath = FRONTEND_UPLOADS_DIR;
-        fs.mkdirSync(imagePath, { recursive: true });
-        cb(null, imagePath);
-    },
-    filename: function(req, file, cb) {
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
-    }
-});
-
-const upload = multer({
-    storage: storage,
-    limits: { fileSize: 15 * 1024 * 1024 }, // رفعنا الحد لـ 15 ميجا عشان الداتا شيت التقيلة
-});
+const upload = createUpload({ prefix: 'product', maxFileSize: 15 * 1024 * 1024, supportDatasheets: true });
 
 // ==========================================================================
 // 2. مسار إضافة منتج جديد (POST /add)

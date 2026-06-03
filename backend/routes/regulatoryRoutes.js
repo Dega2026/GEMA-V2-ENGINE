@@ -4,6 +4,7 @@ const upload = require('../middleware/upload');
 const Regulatory = require('../models/Regulatory');
 const { authenticateToken, requireRoles } = require('../middleware/auth');
 const { deleteManagedFileByUrl } = require('../utils/fileCleanup');
+const { normalizePrice, normalizeCurrency } = require('../utils/normalize');
 
 // 1. إضافة شهادة جديدة
 router.post('/add', authenticateToken, requireRoles(['SuperAdmin', 'Regulatory']), upload.single('documentFile'), async (req, res) => {
@@ -11,8 +12,8 @@ router.post('/add', authenticateToken, requireRoles(['SuperAdmin', 'Regulatory']
         const { title, type, issueDate, expiryDate, fee, currency } = req.body;
         const newReg = new Regulatory({
             title, type, issueDate, expiryDate,
-            fee: parseFloat(fee) || 0,
-            currency: currency === 'USD' ? 'USD' : 'EGP',
+            fee: normalizePrice(fee),
+            currency: normalizeCurrency(currency),
             documentFile: req.file ? `/uploads/${req.file.filename}` : ''
         });
         await newReg.save();
@@ -25,8 +26,8 @@ router.put('/:id', authenticateToken, requireRoles(['SuperAdmin', 'Regulatory'])
     try {
         const { expiryDate, fee, currency } = req.body;
         const patch = { expiryDate };
-        if (typeof fee !== 'undefined') patch.fee = parseFloat(fee) || 0;
-        if (typeof currency !== 'undefined') patch.currency = currency === 'USD' ? 'USD' : 'EGP';
+        if (typeof fee !== 'undefined') patch.fee = normalizePrice(fee);
+        if (typeof currency !== 'undefined') patch.currency = normalizeCurrency(currency);
         const updated = await Regulatory.findByIdAndUpdate(
             req.params.id, 
             patch,
@@ -57,8 +58,8 @@ router.get('/', async (req, res) => {
             const doc = item.toObject();
             return {
                 ...doc,
-                fee: Number.isFinite(Number(doc.fee)) ? Number(doc.fee) : 0,
-                currency: ['USD', 'EGP'].includes(String(doc.currency || '').toUpperCase()) ? String(doc.currency).toUpperCase() : 'EGP'
+                fee: normalizePrice(doc.fee),
+                currency: normalizeCurrency(doc.currency)
             };
         });
         res.json(normalized);
