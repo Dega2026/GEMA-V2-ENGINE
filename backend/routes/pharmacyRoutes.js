@@ -21,6 +21,7 @@ router.get('/:slug', async (req, res) => {
 
         return res.json({ success: true, data: pharmacy });
     } catch (error) {
+        console.error('Pharmacy fetch error:', error.message);
         return res.status(500).json({ success: false, message: 'Failed to fetch pharmacy data.' });
     }
 });

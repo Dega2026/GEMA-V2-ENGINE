@@ -21,8 +21,10 @@ function appendSecurityLog(event, meta = {}) {
       ...meta,
     });
     fs.appendFileSync(LOG_FILE, `${line}\n`, 'utf8');
-  } catch (_) {
-    // Avoid breaking auth flow if disk logging fails.
+  } catch (err) {
+    // Avoid breaking auth flow if disk logging fails, but emit a warning
+    // so operators know the security log is not being written.
+    console.warn('Security log write failed:', err.message);
   }
 }
 

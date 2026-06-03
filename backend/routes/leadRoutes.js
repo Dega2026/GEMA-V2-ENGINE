@@ -17,6 +17,7 @@ router.get('/', authenticateToken, requireRoles(LEAD_MANAGER_ROLES), async (req,
     });
     return res.json({ success: true, data: leads });
   } catch (error) {
+    console.error('Lead list error:', error.message);
     return res.status(500).json({ success: false, message: 'Failed to fetch leads.' });
   }
 });
@@ -55,6 +56,7 @@ router.post('/', authenticateToken, requireRoles(LEAD_MANAGER_ROLES), async (req
     });
     return res.status(201).json({ success: true, message: 'Lead created successfully.', data: created });
   } catch (error) {
+    console.error('Lead create error:', error.message);
     return res.status(500).json({ success: false, message: 'Failed to create lead.' });
   }
 });
@@ -90,6 +92,7 @@ router.put('/:id/status', authenticateToken, requireRoles(LEAD_MANAGER_ROLES), a
 
     return res.json({ success: true, message: 'Lead status updated.', data: updated });
   } catch (error) {
+    console.error('Lead status update error:', error.message);
     return res.status(500).json({ success: false, message: 'Failed to update lead.' });
   }
 });

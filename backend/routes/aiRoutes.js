@@ -210,7 +210,11 @@ router.post('/public-chat', publicChatLimiter, async (req, res) => {
         });
       }
 
-      await createPublicLead({ leadData, message: userMessage, lang });
+      try {
+        await createPublicLead({ leadData, message: userMessage, lang });
+      } catch (leadErr) {
+        console.warn('Public lead capture failed (non-blocking):', leadErr.message);
+      }
     }
 
     const visitorContext = [
@@ -231,6 +235,7 @@ router.post('/public-chat', publicChatLimiter, async (req, res) => {
       leadCaptured: requiresLeadCapture,
     });
   } catch (error) {
+    console.error('Public AI chat error:', error.message);
     return res.status(500).json({ success: false, message: 'Failed to process public AI request.' });
   }
 });

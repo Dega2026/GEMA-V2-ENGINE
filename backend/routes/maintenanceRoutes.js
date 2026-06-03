@@ -12,6 +12,7 @@ router.get('/', async (req, res) => {
     const items = await Maintenance.find({ isActive: true }).sort({ scheduledDate: 1, createdAt: -1 });
     return res.json({ success: true, data: items });
   } catch (error) {
+    console.error('Maintenance list error:', error.message);
     return res.status(500).json({ success: false, message: 'Failed to fetch maintenance records' });
   }
 });
@@ -25,6 +26,7 @@ router.get('/:id', async (req, res) => {
 
     return res.json({ success: true, data: item });
   } catch (error) {
+    console.error('Maintenance fetch error:', error.message);
     return res.status(500).json({ success: false, message: 'Failed to fetch maintenance record' });
   }
 });
@@ -52,6 +54,7 @@ router.post(
       const created = await Maintenance.create(payload);
       return res.status(201).json({ success: true, message: 'Maintenance record created', data: created });
     } catch (error) {
+      console.error('Maintenance create error:', error.message);
       return res.status(500).json({ success: false, message: 'Failed to create maintenance record' });
     }
   }
@@ -99,6 +102,7 @@ router.put(
 
       return res.json({ success: true, message: 'Maintenance record updated', data: updated });
     } catch (error) {
+      console.error('Maintenance update error:', error.message);
       return res.status(500).json({ success: false, message: 'Failed to update maintenance record' });
     }
   }
@@ -115,6 +119,7 @@ router.delete('/:id', authenticateToken, requireRoles(MANAGER_ROLES), async (req
 
     return res.json({ success: true, message: 'Maintenance record deleted' });
   } catch (error) {
+    console.error('Maintenance delete error:', error.message);
     return res.status(500).json({ success: false, message: 'Failed to delete maintenance record' });
   }
 });

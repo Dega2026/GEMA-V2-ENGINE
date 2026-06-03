@@ -24,6 +24,7 @@ router.get('/links', authenticateToken, requireRoles(PORTAL_MANAGER_ROLES), asyn
 
     return res.json({ success: true, data: items });
   } catch (error) {
+    console.error('Portal links list error:', error.message);
     return res.status(500).json({ success: false, message: 'Failed to fetch portal links.' });
   }
 });
@@ -85,6 +86,7 @@ router.post('/links', authenticateToken, requireRoles(PORTAL_MANAGER_ROLES), asy
       }
     });
   } catch (error) {
+    console.error('Portal link create error:', error.message);
     return res.status(500).json({ success: false, message: 'Failed to create portal link.' });
   }
 });
@@ -133,6 +135,7 @@ router.get('/public/:token', async (req, res) => {
       }
     });
   } catch (error) {
+    console.error('Portal public access error:', error.message);
     return res.status(500).json({ success: false, message: 'Failed to load portal data.' });
   }
 });

@@ -57,6 +57,7 @@ router.get('/follow-ups', authenticateToken, requireRoles(AUTOMATION_ROLES), asy
     const jobs = await FollowUpJob.find().sort({ createdAt: -1 }).limit(200).lean();
     return res.json({ success: true, data: jobs });
   } catch (error) {
+    console.error('Follow-up list error:', error.message);
     return res.status(500).json({ success: false, message: 'Failed to load follow-up jobs.' });
   }
 });
@@ -143,6 +144,7 @@ router.post('/follow-ups', authenticateToken, requireRoles(AUTOMATION_ROLES), as
 
     return res.status(201).json({ success: true, message: 'Follow-up job created.', data: job });
   } catch (error) {
+    console.error('Follow-up create error:', error.message);
     return res.status(500).json({ success: false, message: 'Failed to create follow-up job.' });
   }
 });
@@ -189,6 +191,7 @@ router.post('/follow-ups/:id/run', authenticateToken, requireRoles(AUTOMATION_RO
       return res.status(502).json({ success: false, message: 'SMTP send failed.', data: job });
     }
   } catch (error) {
+    console.error('Follow-up run error:', error.message);
     return res.status(500).json({ success: false, message: 'Failed to run follow-up job.' });
   }
 });
